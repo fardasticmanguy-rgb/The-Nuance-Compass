@@ -70,7 +70,11 @@ Any static server works (`npx serve`, `python3 -m http.server`, the VS Code Live
 ### Deploying
 
 A GitHub Actions workflow in `.github/workflows/pages.yml` publishes the site to GitHub Pages on
-every push to the default branch. To turn it on: **Settings → Pages → Source → GitHub Actions**.
+every push to `main`.
+
+Pages has to be switched on once by the repository owner before the first deploy can land:
+**Settings > Pages > Build and deployment > Source > GitHub Actions**. After that every push
+republishes on its own.
 
 It's a static site, so it also drops onto Netlify, Vercel, or Cloudflare Pages with no
 configuration. Point them at the repository root.
