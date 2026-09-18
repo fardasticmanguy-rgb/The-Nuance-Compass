@@ -3,7 +3,7 @@ import { QUESTIONS } from "./data/questions.js";
 import { state, load, clearSaved, answeredCount, firstUnanswered, loadTheme, saveTheme } from "./state.js";
 import { initQuiz, render as renderQuestion, go, refreshProgress } from "./quiz.js";
 import { renderResults } from "./results.js";
-import { readShared } from "./share.js";
+import { readShared, readResume } from "./share.js";
 
 const screens = {
   intro: document.getElementById("screen-intro"),
@@ -93,6 +93,15 @@ function boot() {
     state.answers = shared;
     renderQuestion();
     showResults();
+    return;
+  }
+
+  const resumed = readResume();
+  if (resumed) {
+    state.answers = resumed;
+    history.replaceState(null, "", window.location.pathname);
+    go(firstUnanswered());
+    show("quiz");
     return;
   }
 
