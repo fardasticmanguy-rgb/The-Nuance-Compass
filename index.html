@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Nuance Compass</title>
+<meta name="description" content="A 100-question political test with sliders instead of boxes, and conditions instead of absolutes.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="grain"></div>
+
+<header class="topbar">
+  <a class="brand" href="#" data-nav="intro">
+    <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <span class="brand-text">The Nuance Compass</span>
+  </a>
+  <div class="topbar-right">
+    <span class="topbar-progress" id="topbar-progress" hidden></span>
+    <button class="ghost-btn" id="theme-toggle" type="button" aria-label="Switch theme">
+      <span data-theme-icon>Light</span>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="screen intro" id="screen-intro">
+  <div class="intro-hero">
+    <p class="eyebrow">One hundred questions · Six axes · No boxes to tick</p>
+    <h1>Politics is not <em>agree</em> or <em>disagree</em>.</h1>
+    <p class="lede">
+      Every compass test asks whether you agree. Almost nobody simply does. You agree
+      <em>up to a point</em>, or you agree <em>only if</em>, or you would agree if the question
+      meant the thing you think it means. This one is built around that.
+    </p>
+    <div class="intro-actions">
+      <button class="primary-btn" id="start-btn" type="button">Begin the test</button>
+      <button class="secondary-btn" id="resume-btn" type="button" hidden>Resume where you left off</button>
+    </div>
+    <p class="intro-meta" id="intro-meta">Takes about 15 minutes. Nothing leaves your browser.</p>
+  </div>
+
+  <div class="intro-cards">
+    <article class="feature">
+      <h3>A slider, not a box</h3>
+      <p>Answer anywhere on a continuous scale. Mild agreement and total conviction are not the same thing, and they are not scored the same way.</p>
+    </article>
+    <article class="feature">
+      <h3>Conditions, not absolutes</h3>
+      <p>Every statement carries the clauses people actually add: <em>only if</em>, <em>unless</em>, <em>but not when</em>. Pick the ones you mean and they change your score.</p>
+    </article>
+    <article class="feature">
+      <h3>Nothing is jargon</h3>
+      <p>Every question has an <span class="inline-info">i</span> explaining what it is really asking and what each side tends to imply. No assumed vocabulary.</p>
+    </article>
+    <article class="feature">
+      <h3>Six axes, one map</h3>
+      <p>Two axes cannot hold a person. You get the classic compass plus culture, borders, ecology and who you trust to decide.</p>
+    </article>
+  </div>
+
+  <div class="axis-preview" id="axis-preview"></div>
+
+  <details class="method">
+    <summary>How the scoring works</summary>
+    <div class="method-body">
+      <p>
+        Each statement pulls on one or more axes. Your slider position sets how hard it pulls, and
+        the weighting you give a question multiplies it. Conditions attach their own smaller pulls,
+        which is how <em>agree, but only with a warrant</em> lands somewhere different from a flat
+        <em>agree</em>.
+      </p>
+      <p>
+        Each axis is scored against the strongest possible answer to the questions you actually
+        answered, so skipping questions does not distort the rest. The statements are polarity
+        balanced: agreeing with all one hundred puts you within a point or two of dead centre, so
+        the test cannot be passed by nodding along.
+      </p>
+    </div>
+  </details>
+</section>
+
+<section class="screen quiz" id="screen-quiz" hidden>
+  <div class="quiz-head">
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="quiz-meta">
+      <span class="section-tag" id="section-tag"></span>
+      <span class="counter" id="counter"></span>
+    </div>
+  </div>
+
+  <article class="card" id="question-card">
+    <div class="card-top">
+      <span class="card-index" id="card-index"></span>
+      <button class="info-btn" id="info-btn" type="button" aria-expanded="false" aria-controls="info-panel">
+        <span aria-hidden="true">i</span>
+        <span class="sr-only">What does this mean?</span>
+      </button>
+    </div>
+
+    <h2 class="statement" id="statement"></h2>
+
+    <div class="info-panel" id="info-panel" hidden>
+      <p class="info-label">What this is asking</p>
+      <p id="info-text"></p>
+    </div>
+
+    <div class="slider-block">
+      <div class="slider-labels">
+        <span>Strongly disagree</span>
+        <span>Neutral</span>
+        <span>Strongly agree</span>
+      </div>
+      <input class="slider" id="slider" type="range" min="-100" max="100" step="1" value="0"
+             aria-label="How strongly do you agree with this statement?">
+      <div class="slider-readout">
+        <span class="stance" id="stance">Undecided</span>
+        <span class="stance-value" id="stance-value">0</span>
+      </div>
+      <div class="quick-set" id="quick-set"></div>
+    </div>
+
+    <div class="nuance-block" id="nuance-block" hidden>
+      <p class="nuance-head" id="nuance-head"></p>
+      <div class="nuance-list" id="nuance-list"></div>
+    </div>
+
+    <div class="weight-block">
+      <span class="weight-label">How much does this one matter to you?</span>
+      <div class="weight-options" id="weight-options"></div>
+    </div>
+  </article>
+
+  <nav class="quiz-nav">
+    <button class="secondary-btn" id="prev-btn" type="button">Back</button>
+    <button class="ghost-btn" id="skip-btn" type="button">No opinion</button>
+    <button class="primary-btn" id="next-btn" type="button">Next</button>
+  </nav>
+
+  <p class="keys">
+    <kbd>←</kbd><kbd>→</kbd> move the slider · <kbd>1</kbd> to <kbd>5</kbd> jump to a stance ·
+    <kbd>Enter</kbd> next · <kbd>i</kbd> explain · <kbd>Esc</kbd> save and exit
+  </p>
+</section>
+
+<section class="screen results" id="screen-results" hidden></section>
+
+</main>
+
+<footer class="footer">
+  <span>Built as a portfolio piece. Opinions are yours, arithmetic is mine.</span>
+  <span class="footer-links">
+    <button class="linkish" id="reset-all" type="button">Clear saved answers</button>
+  </span>
+</footer>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>
