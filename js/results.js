@@ -1,5 +1,4 @@
 import { AXES } from "./data/axes.js";
-import { QUESTIONS } from "./data/questions.js";
 import { COUNTRY_NOTE } from "./data/countries.js";
 import {
   computeScores, matchIdeologies, matchCountries, farthestCountry,
@@ -34,7 +33,7 @@ export function renderResults(container, handlers) {
 
   container.innerHTML = `
     <div class="results-head">
-      <p class="eyebrow">${answered} of ${QUESTIONS.length} questions answered</p>
+      <p class="eyebrow">${answered} of ${state.questions.length} questions answered</p>
       <h1>You land in the<br><span class="quadrant-name" style="color:${quadrant.color}">${quadrant.name}</span></h1>
       <p>Closest fit: <strong>${esc(ideologies[0].name)}</strong> at ${ideologies[0].match}%, though the six axes below say considerably more than any single label does.</p>
     </div>
@@ -112,7 +111,7 @@ export function renderResults(container, handlers) {
     <section class="panel" id="review-panel" hidden>
       <h2 class="panel-title">Your answers</h2>
       <p class="panel-sub">Click any line to go back and change it.</p>
-      <div class="review-list">${QUESTIONS.map(reviewRow).join("")}</div>
+      <div class="review-list">${state.questions.map(reviewRow).join("")}</div>
     </section>
   `;
 

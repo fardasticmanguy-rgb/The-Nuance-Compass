@@ -34,8 +34,15 @@
       This one lets you say which.
     </p>
     <div class="intro-actions">
-      <button class="primary-btn" id="start-btn" type="button">Begin the test</button>
-      <button class="secondary-btn" id="resume-btn" type="button" hidden>Resume where you left off</button>
+      <button class="primary-btn" id="start-btn" type="button">Take the full test
+        <span class="btn-sub">100 questions, about 15 minutes</span>
+      </button>
+      <button class="secondary-btn" id="start-quick-btn" type="button">Take the short one
+        <span class="btn-sub">30 questions, about 5 minutes</span>
+      </button>
+    </div>
+    <div class="intro-actions intro-resume">
+      <button class="ghost-btn" id="resume-btn" type="button" hidden>Resume where you left off</button>
     </div>
     <p class="intro-meta" id="intro-meta">Takes about 15 minutes. Nothing leaves your browser.</p>
   </div>
@@ -82,11 +89,14 @@
 
 <section class="screen quiz" id="screen-quiz" hidden>
   <div class="quiz-head">
-    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
-    <div class="quiz-meta">
-      <span class="section-tag" id="section-tag"></span>
-      <span class="counter" id="counter"></span>
+    <div class="quiz-head-main">
+      <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+      <div class="quiz-meta">
+        <span class="section-tag" id="section-tag"></span>
+        <span class="counter" id="counter"></span>
+      </div>
     </div>
+    <div class="mini-compass" id="mini-compass" title="Your position so far"></div>
   </div>
 
   <article class="card" id="question-card">
@@ -152,6 +162,8 @@
     <kbd>i</kbd> explain
   </p>
 </section>
+
+<section class="screen milestone" id="screen-milestone" hidden></section>
 
 <section class="screen results" id="screen-results" hidden></section>
 

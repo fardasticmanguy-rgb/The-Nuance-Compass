@@ -6,7 +6,7 @@ Most compass tests hand you five radio buttons and treat *"abortion should be le
 question with one answer. It isn't. People agree **up to a point**, or agree **only if**, or would
 agree if the statement meant the thing they think it means. This test is built around that gap.
 
-**[Live version](https://fardasticmanguy-rgb.github.io/political-compass/)**
+**[Live version](https://fardasticmanguy-rgb.github.io/the-nuance-compass/)**
 
 ## What makes it different
 
@@ -30,6 +30,14 @@ what "Georgism" means to answer honestly.
 
 **Six axes.** Two axes cannot hold a person, so the classic economic and authority axes are joined
 by culture, borders, ecology, and who you trust to make decisions.
+
+**You can see it working.** A live compass in the corner moves with every answer, including when
+you tick a condition, so the scoring is never a black box you wait fifteen minutes to see the
+output of. Every twenty questions it stops and shows where you have landed so far.
+
+**Two lengths.** The full test is 100 questions. The short one is 30, picked to cover all six
+sections and balanced to within half a percent on every axis, so a five-minute run is not a worse
+measurement, just a coarser one.
 
 ## Results
 
@@ -56,7 +64,10 @@ and world, nature and machines, and crime and punishment. Between them they carr
 clauses.
 
 They're deliberately written broad rather than technical. The aim is to catch your instinct about
-a principle, not to quiz you on policy detail. They're also **polarity balanced**: agreeing with all
+a principle, not to quiz you on policy detail.
+
+The short test draws 30 of them, chosen by a balancing pass rather than by hand: it maximises axis
+coverage while driving the signed weight sum on every axis to zero. They're also **polarity balanced**: agreeing with all
 100 statements puts you within a point or two of dead centre on every axis, so the test can't be
 gamed by nodding along, and acquiescence bias doesn't quietly push everyone to one corner.
 
@@ -65,8 +76,8 @@ gamed by nodding along, and acquiescence bias doesn't quietly push everyone to o
 No build step, no dependencies, no backend. It's static files.
 
 ```bash
-git clone https://github.com/fardasticmanguy-rgb/political-compass.git
-cd political-compass
+git clone https://github.com/fardasticmanguy-rgb/the-nuance-compass.git
+cd the-nuance-compass
 python3 -m http.server 8000
 ```
 
@@ -110,9 +121,11 @@ css/style.css           styling, light and dark themes
 js/main.js              screen routing and boot
 js/quiz.js              question rendering, answer control, conditions, keyboard control
 js/results.js           results screen
+js/milestone.js         the every-twenty-questions checkpoint
 js/compass.js           the compass plot, drawn as SVG
 js/scoring.js           scoring, normalisation, matching
-js/state.js             localStorage persistence
+js/state.js             localStorage persistence and which question set is active
+js/toast.js             transient confirmation messages
 js/share.js             result encoding for shareable links
 js/data/axes.js         the six axes and their position labels
 js/data/questions.js    question index

@@ -1,12 +1,19 @@
-import { QUESTIONS } from "./data/questions.js";
+import { QUESTIONS, QUICK_QUESTIONS } from "./data/questions.js";
 
 const STORAGE_KEY = "nuance-compass-v1";
 const THEME_KEY = "nuance-compass-theme";
 
 export const state = {
   answers: {},
-  position: 0
+  position: 0,
+  mode: "full",
+  questions: QUESTIONS
 };
+
+export function setMode(mode) {
+  state.mode = mode === "quick" ? "quick" : "full";
+  state.questions = state.mode === "quick" ? QUICK_QUESTIONS : QUESTIONS;
+}
 
 export function blankAnswer() {
   return { value: 0, nuances: [], answered: false };
@@ -18,18 +25,19 @@ export function answerFor(id) {
 }
 
 export function answeredCount() {
-  return QUESTIONS.filter(q => state.answers[q.id] && state.answers[q.id].answered).length;
+  return state.questions.filter(q => state.answers[q.id] && state.answers[q.id].answered).length;
 }
 
 export function firstUnanswered() {
-  const index = QUESTIONS.findIndex(q => !state.answers[q.id] || !state.answers[q.id].answered);
-  return index === -1 ? QUESTIONS.length - 1 : index;
+  const index = state.questions.findIndex(q => !state.answers[q.id] || !state.answers[q.id].answered);
+  return index === -1 ? state.questions.length - 1 : index;
 }
 
 export function save() {
   try {
     const payload = {
       position: state.position,
+      mode: state.mode,
       answers: Object.fromEntries(
         Object.entries(state.answers)
           .filter(([, a]) => a.answered)
@@ -48,6 +56,7 @@ export function load() {
     if (!raw) return false;
     const parsed = JSON.parse(raw);
     if (!parsed || typeof parsed !== "object") return false;
+    setMode(parsed.mode);
     state.position = Number(parsed.position) || 0;
     state.answers = {};
     for (const [id, tuple] of Object.entries(parsed.answers || {})) {
