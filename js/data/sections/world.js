@@ -104,7 +104,7 @@ export const WORLD = [
     section: "world",
     text: "A country should protect its own industries even if that makes things cost more.",
     info: "Tariffs and industrial policy against cheap imports. Agreeing values domestic capacity and jobs; disagreeing values the lower prices open competition brings.",
-    axes: { natl: -0.75, econ: -0.25, govn: 0.2 },
+    axes: { natl: -0.85, econ: -0.15, govn: 0.2 },
     nuances: [
       { when: "agree", text: "only where it matters strategically, like food, energy and medicine", axes: { natl: 0.35, govn: 0.3 } },
       { when: "disagree", text: "though losing every factory has a cost nobody counted", axes: { natl: -0.35, econ: -0.25 } }
@@ -174,6 +174,50 @@ export const WORLD = [
     nuances: [
       { when: "agree", text: "especially never children", axes: { auth: -0.35, cult: 0.25 } },
       { when: "disagree", text: "though it should be brief and rare", axes: { auth: -0.4 } }
+    ]
+  },
+  {
+    id: "n17",
+    section: "world",
+    text: "A country has the right to decide who comes in, and owes nobody an explanation.",
+    info: "Whether immigration control is a sovereign matter or one carrying outside obligations. Agreeing puts the decision entirely inside the border; disagreeing sees duties that do not stop there.",
+    axes: { natl: -0.9, auth: 0.25 },
+    nuances: [
+      { when: "agree", text: "except where the country helped cause the crisis people are fleeing", axes: { natl: 0.45 } },
+      { when: "disagree", text: "though it does get to decide the numbers", axes: { natl: -0.35 } }
+    ]
+  },
+  {
+    id: "n18",
+    section: "world",
+    text: "The problems that matter most now do not stop at borders and cannot be solved inside them.",
+    info: "Climate, disease, tax, money. Agreeing concludes that real authority has to sit above the nation; disagreeing thinks countries cooperating beats countries submitting.",
+    axes: { natl: 0.7, govn: 0.3 },
+    nuances: [
+      { when: "agree", text: "cooperation between governments, not authority over them", axes: { natl: -0.4, govn: -0.25 } },
+      { when: "disagree", text: "though no country can fix any of them on its own", axes: { natl: 0.35 } }
+    ]
+  },
+  {
+    id: "n19",
+    section: "world",
+    text: "People should be free to move and work in whichever country they choose.",
+    info: "Open movement as a right rather than a privilege granted by a state. Agreeing extends freedom of movement to everyone; disagreeing keeps entry a matter of permission.",
+    axes: { natl: 0.7, econ: 0.2 },
+    nuances: [
+      { when: "agree", text: "with the same pay and conditions as everyone already there", axes: { econ: -0.45 } },
+      { when: "disagree", text: "though it should be far easier than it currently is", axes: { natl: 0.4 } }
+    ]
+  },
+  {
+    id: "n20",
+    section: "world",
+    text: "Foreign money and foreign ownership should be limited where they put national control at risk.",
+    info: "Overseas investment as opportunity against overseas investment as leverage. Agreeing wants strategic assets kept at home; disagreeing wants capital to go where it is useful.",
+    axes: { natl: -0.75, econ: -0.25, govn: 0.2 },
+    nuances: [
+      { when: "agree", text: "for infrastructure, land and defence only", axes: { natl: 0.35, govn: 0.3 } },
+      { when: "disagree", text: "though who owns the water and the power grid is a fair question", axes: { natl: -0.35, econ: -0.3 } }
     ]
   }
 ];

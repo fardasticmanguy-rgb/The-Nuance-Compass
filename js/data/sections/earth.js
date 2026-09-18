@@ -176,5 +176,73 @@ export const EARTH = [
       { when: "agree", text: "growth is what pays for everything else we want", axes: { econ: 0.3 } },
       { when: "disagree", text: "measure health, time and security instead", axes: { ecol: 0.35, econ: -0.35 } }
     ]
+  },
+  {
+    id: "e17",
+    section: "earth",
+    text: "A wild place is worth keeping wild even when there is good money to be made from it.",
+    info: "Whether nature has a value beyond what it can be turned into. Agreeing accepts a real cost to leave things alone; disagreeing thinks land should be put to use.",
+    axes: { ecol: 0.85, econ: -0.2 },
+    nuances: [
+      { when: "agree", text: "so long as the people living nearest are compensated properly", axes: { econ: -0.35, natl: -0.2 } },
+      { when: "agree", text: "and that applies to other countries' wild places too, not just our own", axes: { natl: 0.4 } },
+      { when: "disagree", text: "though a few places should be off limits whatever they are worth", axes: { ecol: 0.4 } }
+    ]
+  },
+  {
+    id: "e18",
+    section: "earth",
+    text: "The environmental threat gets overstated by people who want more say over how everyone lives.",
+    info: "A claim about motive as much as about science. Agreeing treats green policy as a vehicle for control; disagreeing takes the warnings at face value.",
+    axes: { ecol: -0.8, govn: -0.4, auth: -0.45 },
+    nuances: [
+      { when: "agree", text: "the problem is real, the proposed cures are the part that worries me", axes: { ecol: 0.45 } },
+      { when: "disagree", text: "though heavy-handed green policy does put people's backs up", axes: { auth: -0.3, govn: -0.2 } }
+    ]
+  },
+  {
+    id: "e19",
+    section: "earth",
+    text: "How much water, land and energy a household gets through is a fair thing for the state to have a view on.",
+    info: "Where personal consumption stops being private. Agreeing accepts regulation reaching into the home; disagreeing draws a line at the front door.",
+    axes: { ecol: 0.7, auth: 0.35 },
+    nuances: [
+      { when: "agree", text: "through pricing, not through rules and inspections", axes: { auth: -0.45, econ: 0.3 } },
+      { when: "agree", text: "starting with the biggest users rather than everyone equally", axes: { econ: -0.4 } },
+      { when: "disagree", text: "though what industry gets through is a different matter entirely", axes: { econ: -0.4, ecol: 0.35 } }
+    ]
+  },
+  {
+    id: "e20",
+    section: "earth",
+    text: "Each generation should use what it finds and let the next one work out its own answers.",
+    info: "Whether we owe the future restraint. Agreeing treats every generation as free to use what is there; disagreeing treats resources as held in trust.",
+    axes: { ecol: -0.85, cult: -0.2 },
+    nuances: [
+      { when: "agree", text: "because they will be richer and cleverer than us anyway", axes: { ecol: -0.3, govn: 0.25 } },
+      { when: "disagree", text: "though we should not make ourselves poor guessing at what they will need", axes: { ecol: -0.35, econ: 0.3 } }
+    ]
+  },
+  {
+    id: "e21",
+    section: "earth",
+    text: "The cost of cleaning up the damage should be built into the price of whatever caused it.",
+    info: "Making pollution expensive rather than banning it. Agreeing wants the damage paid for by whoever profits; disagreeing sees a tax that lands on ordinary buyers.",
+    axes: { ecol: 0.7, econ: -0.2, govn: 0.35 },
+    nuances: [
+      { when: "agree", text: "with the money handed straight back to households", axes: { econ: -0.35, auth: -0.25 } },
+      { when: "disagree", text: "because the cost always ends up with whoever can least afford it", axes: { econ: -0.4 } }
+    ]
+  },
+  {
+    id: "e22",
+    section: "earth",
+    text: "Poorer countries cannot fairly be asked to hold back their development for environmental reasons.",
+    info: "Who carries the cost of the transition. Agreeing says the countries that burned the most should go first; disagreeing says the atmosphere does not care who emits.",
+    axes: { ecol: -0.6, natl: 0.2, econ: 0.35 },
+    nuances: [
+      { when: "agree", text: "so richer countries should pay for the clean version outright", axes: { econ: -0.5, natl: 0.3, ecol: 0.35 } },
+      { when: "disagree", text: "though it is rich by asking them to skip what we did", axes: { natl: 0.35, ecol: 0.2 } }
+    ]
   }
 ];

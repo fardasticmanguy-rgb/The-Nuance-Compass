@@ -190,5 +190,38 @@ export const POWER = [
       { when: "agree", text: "if they can work and pay tax, they can vote", axes: { cult: 0.25, econ: 0.2 } },
       { when: "disagree", text: "though they should be taught politics properly before they do", axes: { govn: 0.3 } }
     ]
+  },
+  {
+    id: "p18",
+    section: "power",
+    text: "Complicated problems are better handled by people trained in them than by whoever won the election.",
+    info: "The clearest statement of the decision axis. Agreeing hands hard questions to specialists; disagreeing insists that whoever decides should be removable by voters.",
+    axes: { govn: 0.85, auth: 0.25 },
+    nuances: [
+      { when: "agree", text: "they should advise and the elected side should still choose", axes: { govn: -0.45 } },
+      { when: "disagree", text: "though ignoring the people who know the subject is its own kind of stupid", axes: { govn: 0.4 } }
+    ]
+  },
+  {
+    id: "p19",
+    section: "power",
+    text: "Ordinary people understand their own lives better than any specialist studying them.",
+    info: "Whose knowledge counts when lived experience and professional analysis disagree. Agreeing trusts the person living it; disagreeing trusts the person measuring it.",
+    axes: { govn: -0.8, cult: -0.15 },
+    nuances: [
+      { when: "agree", text: "on their own lives, yes, on how the whole system works, less so", axes: { govn: 0.45 } },
+      { when: "disagree", text: "though policy written by people who have never lived it usually shows", axes: { govn: -0.35 } }
+    ]
+  },
+  {
+    id: "p20",
+    section: "power",
+    text: "Where the experts disagree among themselves, the public should settle it.",
+    info: "What happens when there is no consensus to defer to. Agreeing hands the choice back to voters; disagreeing thinks an unresolved technical question is still a technical question.",
+    axes: { govn: -0.7, auth: -0.4 },
+    nuances: [
+      { when: "agree", text: "once both cases have been put to them properly", axes: { govn: 0.3 } },
+      { when: "disagree", text: "though the public should at least be told that the experts are split", axes: { govn: -0.25 } }
+    ]
   }
 ];

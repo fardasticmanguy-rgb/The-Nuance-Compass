@@ -25,12 +25,12 @@ export const SECTION_BY_ID = Object.fromEntries(SECTIONS.map(s => [s.id, s]));
 export const QUESTION_BY_ID = Object.fromEntries(QUESTIONS.map(q => [q.id, q]));
 
 export const QUICK_IDS = [
-  "w04", "w07", "w10", "w15", "w16",
-  "p01", "p05", "p07", "p10", "p15",
-  "s01", "s09", "s13", "s14",
-  "n01", "n04", "n05", "n12", "n16",
-  "e05", "e07", "e10", "e12", "e14", "e15", "e16",
-  "j02", "j08", "j14", "j15"
+  "w03", "w07", "w14", "w16",
+  "p03", "p05", "p12", "p15", "p18",
+  "s01", "s09", "s12", "s16", "s18",
+  "n01", "n04", "n06", "n16", "n20",
+  "e03", "e10", "e14", "e16", "e17", "e19", "e21",
+  "j02", "j04", "j09", "j10", "j14", "j15"
 ];
 
 export const QUICK_QUESTIONS = QUESTIONS.filter(q => QUICK_IDS.includes(q.id));
