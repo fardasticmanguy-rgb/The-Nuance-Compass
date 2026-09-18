@@ -6,7 +6,7 @@ Most compass tests hand you five radio buttons and treat *"abortion should be le
 question with one answer. It isn't. People agree **up to a point**, or agree **only if**, or would
 agree if the statement meant the thing they think it means. This test is built around that gap.
 
-**[Live version](https://fardasticmanguy-rgb.github.io/the-nuance-compass/)**
+**[Live version](https://fardasticmanguy-rgb.github.io/The-Nuance-Compass/)**
 
 ## What makes it different
 
@@ -76,8 +76,8 @@ gamed by nodding along, and acquiescence bias doesn't quietly push everyone to o
 No build step, no dependencies, no backend. It's static files.
 
 ```bash
-git clone https://github.com/fardasticmanguy-rgb/the-nuance-compass.git
-cd the-nuance-compass
+git clone https://github.com/fardasticmanguy-rgb/The-Nuance-Compass.git
+cd The-Nuance-Compass
 python3 -m http.server 8000
 ```
 
