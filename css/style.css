@@ -150,7 +150,21 @@ button { font-family: inherit; }
 
 .lede { font-size: 17px; color: var(--text-dim); margin: 0 0 28px; max-width: 62ch; }
 
-.intro-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.intro-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; }
+
+.intro-actions .primary-btn,
+.intro-actions .secondary-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  text-align: left;
+  padding: 12px 22px;
+}
+
+.btn-sub { font-size: 12px; font-weight: 400; opacity: 0.75; }
+
+.intro-resume { margin-top: 10px; }
 
 .intro-meta { font-size: 13px; color: var(--text-faint); margin-top: 14px; }
 
@@ -195,7 +209,25 @@ button { font-family: inherit; }
 
 .method-body { font-size: 14px; color: var(--text-dim); max-width: 68ch; }
 
-.quiz-head { margin-bottom: 20px; }
+.quiz-head {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.quiz-head-main { flex: 1; min-width: 0; }
+
+.mini-compass {
+  flex: none;
+  width: 62px;
+  height: 62px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.mini-compass svg { display: block; width: 100%; height: 100%; }
 
 .progress-track {
   height: 3px;
@@ -451,6 +483,11 @@ kbd {
   .card-index { display: none; }
   .card-top { justify-content: flex-end; margin-bottom: 8px; }
 
+  .mini-compass { width: 50px; height: 50px; }
+
+  .intro-actions .primary-btn,
+  .intro-actions .secondary-btn { width: 100%; }
+
   .topbar { padding: 6px 16px; }
   .brand-text { font-size: 14px; }
   .ghost-btn { min-height: 44px; }
@@ -506,6 +543,44 @@ kbd {
 
   .footer { padding: 20px 16px 32px; }
 }
+
+.milestone { text-align: center; }
+
+.milestone-inner { max-width: 440px; margin: 0 auto; padding: 12px 0 40px; }
+
+.milestone h2 {
+  font-size: clamp(22px, 4vw, 28px);
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0 0 22px;
+}
+
+.milestone-compass {
+  max-width: 300px;
+  margin: 0 auto 22px;
+}
+
+.milestone-compass svg { width: 100%; height: auto; display: block; }
+
+.milestone-lead { font-size: 14.5px; color: var(--text-dim); margin: 0 0 20px; }
+
+.milestone-axes {
+  list-style: none;
+  margin: 0 0 26px;
+  padding: 0;
+  border-top: 1px solid var(--line-soft);
+}
+
+.milestone-axes li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 2px;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 14px;
+}
+
+.milestone-axes span { color: var(--text-faint); }
 
 .results-head { margin-bottom: 32px; }
 

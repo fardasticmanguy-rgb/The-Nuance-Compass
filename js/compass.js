@@ -116,3 +116,24 @@ export function compassSvg(scores, mode = "ideologies", options = {}) {
     stroke="#0b0d12" stroke-width="3" paint-order="stroke" font-family="Helvetica, Arial, sans-serif">${scores.econ > 0 ? "+" : ""}${scores.econ}, ${scores.auth > 0 ? "+" : ""}${scores.auth}</text>
 </svg>`;
 }
+
+export function miniCompassSvg(scores, answered) {
+  const size = 100;
+  const half = size / 2;
+  const x = ((scores.econ + 100) / 200) * size;
+  const y = ((100 - scores.auth) / 200) * size;
+  const faded = answered === 0;
+
+  return `<svg viewBox="0 0 ${size} ${size}" xmlns="http://www.w3.org/2000/svg" role="img"
+    aria-label="Your position so far: economics ${scores.econ}, authority ${scores.auth}."
+    opacity="${faded ? 0.35 : 1}">
+  <rect x="0" y="0" width="${half}" height="${half}" fill="#d9534f"/>
+  <rect x="${half}" y="0" width="${half}" height="${half}" fill="#4a86d6"/>
+  <rect x="0" y="${half}" width="${half}" height="${half}" fill="#57b85a"/>
+  <rect x="${half}" y="${half}" width="${half}" height="${half}" fill="#a86ad4"/>
+  <line x1="${half}" y1="0" x2="${half}" y2="${size}" stroke="#ffffff" stroke-width="1" opacity="0.5"/>
+  <line x1="0" y1="${half}" x2="${size}" y2="${half}" stroke="#ffffff" stroke-width="1" opacity="0.5"/>
+  ${faded ? "" : `<circle cx="${x}" cy="${y}" r="9" fill="#ffffff" opacity="0.3"/>
+  <circle cx="${x}" cy="${y}" r="5" fill="#15181d" stroke="#ffffff" stroke-width="2.2"/>`}
+</svg>`;
+}

@@ -1,13 +1,14 @@
 import { AXES } from "./data/axes.js";
-import { QUESTIONS } from "./data/questions.js";
-import { state, load, clearSaved, answeredCount, firstUnanswered, loadTheme, saveTheme } from "./state.js";
+import { state, load, clearSaved, answeredCount, firstUnanswered, loadTheme, saveTheme, setMode } from "./state.js";
 import { initQuiz, render as renderQuestion, go, refreshProgress } from "./quiz.js";
 import { renderResults } from "./results.js";
+import { renderMilestone } from "./milestone.js";
 import { readShared, readResume } from "./share.js";
 
 const screens = {
   intro: document.getElementById("screen-intro"),
   quiz: document.getElementById("screen-quiz"),
+  milestone: document.getElementById("screen-milestone"),
   results: document.getElementById("screen-results")
 };
 
@@ -54,7 +55,13 @@ function boot() {
   applyTheme(loadTheme());
   buildAxisPreview();
 
-  initQuiz({ onFinish: () => showResults() });
+  initQuiz({
+    onFinish: () => showResults(),
+    onMilestone: () => {
+      renderMilestone(screens.milestone, () => show("quiz"));
+      show("milestone");
+    }
+  });
 
   document.getElementById("theme-toggle").addEventListener("click", () => {
     const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
@@ -63,10 +70,9 @@ function boot() {
     if (!screens.results.hidden) showResults();
   });
 
-  document.getElementById("start-btn").addEventListener("click", () => {
-    go(0);
-    show("quiz");
-  });
+  document.getElementById("start-btn").addEventListener("click", () => beginTest("full"));
+
+  document.getElementById("start-quick-btn").addEventListener("click", () => beginTest("quick"));
 
   document.getElementById("resume-btn").addEventListener("click", () => {
     go(firstUnanswered());
@@ -114,22 +120,30 @@ function boot() {
   show("intro");
 }
 
+function beginTest(mode) {
+  clearSaved();
+  setMode(mode);
+  go(0);
+  show("quiz");
+}
+
 function updateIntro() {
   const done = answeredCount();
+  const total = state.questions.length;
   const resume = document.getElementById("resume-btn");
   const meta = document.getElementById("intro-meta");
-  if (done > 0 && done < QUESTIONS.length) {
+  if (done > 0 && done < total) {
     resume.hidden = false;
-    resume.textContent = `Resume: ${done} of ${QUESTIONS.length} done`;
-    meta.textContent = "Your progress is saved in this browser only.";
-  } else if (done === QUESTIONS.length) {
+    resume.textContent = `Resume: ${done} of ${total} done`;
+    meta.textContent = "Progress is saved in this browser, and you can move it to another device from inside the test.";
+  } else if (done === total && done > 0) {
     resume.hidden = false;
     resume.textContent = "See your results";
     resume.onclick = () => showResults();
     meta.textContent = "You have answered everything.";
   } else {
     resume.hidden = true;
-    meta.textContent = "Takes about 15 minutes. Nothing leaves your browser.";
+    meta.textContent = "Nothing leaves your browser.";
   }
 }
 

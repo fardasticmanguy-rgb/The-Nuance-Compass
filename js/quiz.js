@@ -1,7 +1,8 @@
-import { QUESTIONS, SECTION_BY_ID } from "./data/questions.js";
-import { nuanceGroups } from "./scoring.js";
+import { SECTION_BY_ID } from "./data/questions.js";
+import { nuanceGroups, computeScores } from "./scoring.js";
 import { state, answerFor, answeredCount, save } from "./state.js";
 import { resumeUrl } from "./share.js";
+import { miniCompassSvg } from "./compass.js";
 import { showToast } from "./toast.js";
 
 const CHOICES = [
@@ -17,11 +18,13 @@ const SNAP_RANGE = 8;
 
 const el = {};
 let onFinish = () => {};
+let onMilestone = () => {};
 let infoOpen = false;
 let fineOpen = false;
 
 export function initQuiz(handlers) {
   onFinish = handlers.onFinish;
+  onMilestone = handlers.onMilestone;
 
   el.progressFill = document.getElementById("progress-fill");
   el.sectionTag = document.getElementById("section-tag");
@@ -47,6 +50,7 @@ export function initQuiz(handlers) {
   el.prevBtn = document.getElementById("prev-btn");
   el.nextBtn = document.getElementById("next-btn");
   el.topProgress = document.getElementById("topbar-progress");
+  el.miniCompass = document.getElementById("mini-compass");
   el.card = document.getElementById("question-card");
 
   buildChoices();
@@ -86,7 +90,11 @@ function snap(raw) {
 }
 
 function current() {
-  return QUESTIONS[state.position];
+  return state.questions[state.position];
+}
+
+function milestoneEvery() {
+  return state.questions.length > 50 ? 20 : 10;
 }
 
 function buildChoices() {
@@ -119,7 +127,7 @@ function setValue(value, fromChoice) {
 
 export function go(index) {
   if (index < 0) return;
-  if (index >= QUESTIONS.length) {
+  if (index >= state.questions.length) {
     onFinish();
     return;
   }
@@ -130,11 +138,15 @@ export function go(index) {
 }
 
 function advance() {
-  if (state.position >= QUESTIONS.length - 1) {
+  if (state.position >= state.questions.length - 1) {
     onFinish();
     return;
   }
+
+  const done = answeredCount();
+  const step = milestoneEvery();
   go(state.position + 1);
+  if (done > 0 && done % step === 0 && done < state.questions.length) onMilestone();
 }
 
 export function render() {
@@ -147,7 +159,7 @@ export function render() {
   el.card.style.animation = "";
 
   el.sectionTag.textContent = section ? section.name : "";
-  el.counter.textContent = `${state.position + 1} of ${QUESTIONS.length}`;
+  el.counter.textContent = `${state.position + 1} of ${state.questions.length}`;
   el.cardIndex.textContent = section ? section.blurb : "";
   el.statement.textContent = question.text;
   el.infoText.textContent = question.info;
@@ -222,6 +234,7 @@ function fillNuanceList(container, nuances, answer) {
         ? answer.nuances.filter(id => id !== nuance.id)
         : [...answer.nuances, nuance.id];
       button.setAttribute("aria-pressed", String(!picked));
+      paintProgress();
       save();
     });
     container.appendChild(button);
@@ -230,14 +243,17 @@ function fillNuanceList(container, nuances, answer) {
 
 function paintNav() {
   el.prevBtn.disabled = state.position === 0;
-  el.nextBtn.textContent = state.position === QUESTIONS.length - 1 ? "See results" : "Next";
+  el.nextBtn.textContent = state.position === state.questions.length - 1 ? "See results" : "Next";
 }
 
 function paintProgress() {
   const done = answeredCount();
-  el.progressFill.style.width = (done / QUESTIONS.length) * 100 + "%";
+  const total = state.questions.length;
+  el.progressFill.style.width = (done / total) * 100 + "%";
   el.topProgress.hidden = false;
-  el.topProgress.textContent = `${done} of ${QUESTIONS.length}`;
+  el.topProgress.textContent = `${done} of ${total}`;
+  const { scores } = computeScores(state.answers);
+  el.miniCompass.innerHTML = miniCompassSvg(scores, done);
 }
 
 export function refreshProgress() {
