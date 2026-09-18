@@ -130,6 +130,10 @@
     <div class="nuance-block" id="nuance-block" hidden>
       <p class="nuance-head" id="nuance-head"></p>
       <div class="nuance-list" id="nuance-list"></div>
+      <div class="nuance-cross" id="nuance-cross" hidden>
+        <p class="nuance-head" id="nuance-cross-head"></p>
+        <div class="nuance-list" id="nuance-cross-list"></div>
+      </div>
     </div>
 
   </article>
@@ -138,6 +142,10 @@
     <button class="secondary-btn" id="prev-btn" type="button">Back</button>
     <button class="primary-btn" id="next-btn" type="button">Next</button>
   </nav>
+
+  <p class="resume-row">
+    <button class="linkish" id="resume-link-btn" type="button">Copy a link to continue on another device</button>
+  </p>
 
   <p class="keys">
     <kbd>1</kbd> to <kbd>5</kbd> pick an answer · <kbd>Enter</kbd> next · <kbd>Backspace</kbd> back ·
@@ -155,6 +163,8 @@
     <button class="linkish" id="reset-all" type="button">Clear saved answers</button>
   </span>
 </footer>
+
+<div class="toast" id="toast"></div>
 
 <script type="module" src="js/main.js"></script>
 </body>

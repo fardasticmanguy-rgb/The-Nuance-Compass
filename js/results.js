@@ -8,9 +8,14 @@ import {
 import { compassSvg } from "./compass.js";
 import { state } from "./state.js";
 import { shareUrl } from "./share.js";
+import { showToast } from "./toast.js";
 
 let compassMode = "ideologies";
 let cached = null;
+
+function isNarrow() {
+  return window.matchMedia("(max-width: 620px)").matches;
+}
 
 const esc = text => String(text)
   .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
@@ -37,7 +42,7 @@ export function renderResults(container, handlers) {
     <section class="panel">
       <h2 class="panel-title">The map</h2>
       <p class="panel-sub">The classic two axes. Everything else lives further down.</p>
-      <div class="compass-wrap" id="compass-wrap">${compassSvg(scores, compassMode)}</div>
+      <div class="compass-wrap" id="compass-wrap">${compassSvg(scores, compassMode, { compact: isNarrow() })}</div>
       <div class="compass-toggle" id="compass-toggle">
         <button class="secondary-btn" type="button" data-mode="ideologies">Ideologies</button>
         <button class="secondary-btn" type="button" data-mode="countries">Countries</button>
@@ -109,8 +114,6 @@ export function renderResults(container, handlers) {
       <p class="panel-sub">Click any line to go back and change it.</p>
       <div class="review-list">${QUESTIONS.map(reviewRow).join("")}</div>
     </section>
-
-    <div class="toast" id="toast"></div>
   `;
 
   wire(container, handlers);
@@ -182,7 +185,7 @@ function wire(container, handlers) {
     const button = event.target.closest("button[data-mode]");
     if (!button) return;
     compassMode = button.dataset.mode;
-    container.querySelector("#compass-wrap").innerHTML = compassSvg(cached.scores, compassMode);
+    container.querySelector("#compass-wrap").innerHTML = compassSvg(cached.scores, compassMode, { compact: isNarrow() });
     markMode(container);
   });
   markMode(container);
@@ -191,14 +194,14 @@ function wire(container, handlers) {
     const url = shareUrl(state.answers);
     try {
       await navigator.clipboard.writeText(url);
-      toast(container, "Link copied to clipboard");
+      showToast("Link copied to clipboard");
     } catch (err) {
       void err;
       window.prompt("Copy your result link:", url);
     }
   });
 
-  container.querySelector("#download-png").addEventListener("click", () => downloadCard(container));
+  container.querySelector("#download-png").addEventListener("click", () => downloadCard());
 
   container.querySelector("#review-answers").addEventListener("click", () => {
     const panel = container.querySelector("#review-panel");
@@ -220,13 +223,6 @@ function markMode(container) {
     button.style.borderColor = button.dataset.mode === compassMode ? "var(--accent)" : "";
     button.style.color = button.dataset.mode === compassMode ? "var(--accent)" : "";
   }
-}
-
-function toast(container, message) {
-  const node = container.querySelector("#toast");
-  node.textContent = message;
-  node.classList.add("show");
-  setTimeout(() => node.classList.remove("show"), 2200);
 }
 
 function cardSvg() {
@@ -255,7 +251,7 @@ function cardSvg() {
   </svg>`;
 }
 
-function downloadCard(container) {
+function downloadCard() {
   const svg = cardSvg();
   const blob = new Blob([svg], { type: "image/svg+xml;charset=utf-8" });
   const url = URL.createObjectURL(blob);
@@ -277,13 +273,13 @@ function downloadCard(container) {
       link.download = "nuance-compass.png";
       link.click();
       setTimeout(() => URL.revokeObjectURL(link.href), 1000);
-      toast(container, "Image downloaded");
+      showToast("Image downloaded");
     }, "image/png");
   };
 
   image.onerror = () => {
     URL.revokeObjectURL(url);
-    toast(container, "Could not render the image");
+    showToast("Could not render the image");
   };
 
   image.src = url;

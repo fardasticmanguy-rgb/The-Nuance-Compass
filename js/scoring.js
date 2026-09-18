@@ -7,15 +7,34 @@ const AXIS_IMPORTANCE = { econ: 1.25, auth: 1.25, cult: 1, natl: 0.95, ecol: 0.9
 
 const MATCH_SCALE = 110;
 
-export function isNuanceActive(nuance, value) {
-  if (nuance.when === "any") return true;
-  if (nuance.when === "agree") return value > 4;
-  if (nuance.when === "disagree") return value < -4;
-  return false;
-}
+export function nuanceGroups(question, value) {
+  const byGate = gate => question.nuances.filter(n => n.when === gate);
+  const shared = byGate("any");
 
-export function visibleNuances(question, value) {
-  return question.nuances.filter(n => isNuanceActive(n, value));
+  if (value > 4) {
+    return {
+      primary: [...byGate("agree"), ...shared],
+      primaryHead: "You agree. On what condition?",
+      cross: byGate("disagree"),
+      crossHead: "Anything from the other side you would still sign up to?"
+    };
+  }
+
+  if (value < -4) {
+    return {
+      primary: [...byGate("disagree"), ...shared],
+      primaryHead: "You disagree. With any reservation?",
+      cross: byGate("agree"),
+      crossHead: "Anything from the other side you would still sign up to?"
+    };
+  }
+
+  return {
+    primary: [...shared, ...byGate("agree"), ...byGate("disagree")],
+    primaryHead: "Sitting in the middle. Anything here you would still sign up to?",
+    cross: [],
+    crossHead: ""
+  };
 }
 
 function blankAxisMap(fill = 0) {
@@ -46,7 +65,6 @@ export function computeScores(answers) {
     const conviction = Math.min(1, Math.abs(v) + 0.35);
     for (const nuance of q.nuances) {
       if (!a.nuances.includes(nuance.id)) continue;
-      if (!isNuanceActive(nuance, a.value)) continue;
       for (const [axis, pull] of Object.entries(nuance.axes)) {
         const contribution = pull * conviction;
         total[axis] += contribution;

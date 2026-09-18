@@ -15,11 +15,14 @@ between two of them, open the fine-tune scale and place yourself anywhere from â
 snaps to the five choices and to steps of 5 in between, so it never fights you.
 
 **Conditions, not absolutes.** Every statement carries the clauses people actually attach to their
-opinions. Move the slider to the agree side and you're offered the qualifiers of agreement
-(*only with a warrant*, *but not when it's inherited*, *as long as nobody is hurt*). Move it to
-disagree and you're offered the reservations instead (*unless they genuinely cannot work*,
-*though peaceful protest must be protected*). Each condition carries its own scoring weight, which
-is how *agree, but only with a warrant* lands somewhere different from a flat *agree*.
+opinions. Answer on the agree side and you're offered the qualifiers of agreement (*only with a
+warrant*, *but not when it's inherited*, *as long as nobody is hurt*). Answer on the disagree side
+and you're offered the reservations instead (*unless they genuinely cannot work*, *though peaceful
+protest must be protected*). Each condition carries its own scoring weight, which is how *agree,
+but only with a warrant* lands somewhere different from a flat *agree*.
+
+The other side's conditions stay available too, because agreeing with a statement does not stop
+you holding one of the objections to it.
 
 **No assumed vocabulary.** Every question has an `i` button explaining in plain language what the
 statement is really asking and what each side tends to imply. Nobody should have to already know
@@ -38,6 +41,13 @@ by culture, borders, ecology, and who you trust to make decisions.
 - The answers that moved your score the most, the ones you wouldn't commit to, and any axis where
   you pulled in both directions at once
 - A shareable link that encodes every answer in the URL, and a downloadable image
+
+## Picking it up elsewhere
+
+There is no account and no server. Answers live in `localStorage`, so they survive a refresh on
+the device you started on. To move mid-test, hit **Copy a link to continue on another device**:
+every answer is packed into the URL fragment, and opening that link anywhere restores your
+answers and drops you on the question you had reached. A 100-answer link is about 300 characters.
 
 ## The questions
 

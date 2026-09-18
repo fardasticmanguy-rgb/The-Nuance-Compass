@@ -1,6 +1,8 @@
 import { QUESTIONS, SECTION_BY_ID } from "./data/questions.js";
-import { visibleNuances } from "./scoring.js";
+import { nuanceGroups } from "./scoring.js";
 import { state, answerFor, answeredCount, save } from "./state.js";
+import { resumeUrl } from "./share.js";
+import { showToast } from "./toast.js";
 
 const CHOICES = [
   { label: "Strongly disagree", value: -90, min: -100, max: -73 },
@@ -38,6 +40,10 @@ export function initQuiz(handlers) {
   el.nuanceBlock = document.getElementById("nuance-block");
   el.nuanceHead = document.getElementById("nuance-head");
   el.nuanceList = document.getElementById("nuance-list");
+  el.nuanceCross = document.getElementById("nuance-cross");
+  el.nuanceCrossHead = document.getElementById("nuance-cross-head");
+  el.nuanceCrossList = document.getElementById("nuance-cross-list");
+  el.resumeLinkBtn = document.getElementById("resume-link-btn");
   el.prevBtn = document.getElementById("prev-btn");
   el.nextBtn = document.getElementById("next-btn");
   el.topProgress = document.getElementById("topbar-progress");
@@ -50,6 +56,21 @@ export function initQuiz(handlers) {
   });
 
   el.fineToggle.addEventListener("click", () => toggleFine());
+
+  el.resumeLinkBtn.addEventListener("click", async () => {
+    if (answeredCount() === 0) {
+      showToast("Answer a question first");
+      return;
+    }
+    const url = resumeUrl(state.answers);
+    try {
+      await navigator.clipboard.writeText(url);
+      showToast("Resume link copied. Open it on any device.");
+    } catch (err) {
+      void err;
+      window.prompt("Copy this link and open it on your other device:", url);
+    }
+  });
   el.infoBtn.addEventListener("click", () => toggleInfo());
   el.prevBtn.addEventListener("click", () => go(state.position - 1));
   el.nextBtn.addEventListener("click", () => advance());
@@ -167,28 +188,33 @@ function paintChoices(answer) {
 }
 
 function paintNuances(question, answer) {
-  const options = answer.answered ? visibleNuances(question, answer.value) : [];
-  if (!options.length) {
+  if (!answer.answered || !question.nuances.length) {
     el.nuanceBlock.hidden = true;
     el.nuanceList.innerHTML = "";
+    el.nuanceCrossList.innerHTML = "";
     return;
   }
 
-  el.nuanceBlock.hidden = false;
-  el.nuanceHead.textContent = answer.value > 4
-    ? "You agree. On what condition?"
-    : answer.value < -4
-      ? "You disagree. With any reservation?"
-      : "Worth adding";
+  const groups = nuanceGroups(question, answer.value);
 
-  el.nuanceList.innerHTML = "";
-  for (const nuance of options) {
+  el.nuanceBlock.hidden = false;
+  el.nuanceHead.textContent = groups.primaryHead;
+  fillNuanceList(el.nuanceList, groups.primary, answer);
+
+  el.nuanceCross.hidden = groups.cross.length === 0;
+  el.nuanceCrossHead.textContent = groups.crossHead;
+  fillNuanceList(el.nuanceCrossList, groups.cross, answer);
+}
+
+function fillNuanceList(container, nuances, answer) {
+  container.innerHTML = "";
+  for (const nuance of nuances) {
     const active = answer.nuances.includes(nuance.id);
     const button = document.createElement("button");
     button.type = "button";
     button.className = "nuance";
     button.setAttribute("aria-pressed", String(active));
-    button.innerHTML = `<span class="tick" aria-hidden="true">✓</span><span></span>`;
+    button.innerHTML = `<span class="tick" aria-hidden="true">\u2713</span><span></span>`;
     button.lastElementChild.textContent = nuance.text;
     button.addEventListener("click", () => {
       const picked = answer.nuances.includes(nuance.id);
@@ -198,7 +224,7 @@ function paintNuances(question, answer) {
       button.setAttribute("aria-pressed", String(!picked));
       save();
     });
-    el.nuanceList.appendChild(button);
+    container.appendChild(button);
   }
 }
 

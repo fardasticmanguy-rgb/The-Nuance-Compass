@@ -61,11 +61,24 @@ export function shareUrl(answers) {
   return base + "#r=" + encodeAnswers(answers);
 }
 
+export function resumeUrl(answers) {
+  const base = window.location.href.split("#")[0];
+  return base + "#p=" + encodeAnswers(answers);
+}
+
 export function readShared() {
+  return readHash("#r=");
+}
+
+export function readResume() {
+  return readHash("#p=");
+}
+
+function readHash(prefix) {
   const hash = window.location.hash;
-  if (!hash.startsWith("#r=")) return null;
+  if (!hash.startsWith(prefix)) return null;
   try {
-    return decodeAnswers(hash.slice(3));
+    return decodeAnswers(hash.slice(prefix.length));
   } catch (err) {
     void err;
     return null;
