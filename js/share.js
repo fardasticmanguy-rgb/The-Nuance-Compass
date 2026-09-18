@@ -1,8 +1,7 @@
 import { QUESTIONS } from "./data/questions.js";
 import { blankAnswer } from "./state.js";
 
-const VERSION = 1;
-const SKIPPED = 255;
+const VERSION = 2;
 const UNANSWERED = 254;
 
 function toBase64Url(bytes) {
@@ -20,43 +19,37 @@ function fromBase64Url(text) {
 }
 
 export function encodeAnswers(answers) {
-  const bytes = new Uint8Array(1 + QUESTIONS.length * 3);
+  const bytes = new Uint8Array(1 + QUESTIONS.length * 2);
   bytes[0] = VERSION;
   QUESTIONS.forEach((q, i) => {
     const a = answers[q.id];
-    const offset = 1 + i * 3;
-    if (!a || (!a.touched && !a.skipped)) {
+    const offset = 1 + i * 2;
+    if (!a || !a.answered) {
       bytes[offset] = UNANSWERED;
       return;
     }
-    bytes[offset] = a.skipped ? SKIPPED : Math.max(-100, Math.min(100, a.value)) + 100;
-    bytes[offset + 1] = a.weight;
+    bytes[offset] = Math.max(-100, Math.min(100, a.value)) + 100;
     let mask = 0;
     q.nuances.forEach((n, bit) => {
       if (a.nuances.includes(n.id)) mask |= 1 << bit;
     });
-    bytes[offset + 2] = mask;
+    bytes[offset + 1] = mask;
   });
   return toBase64Url(bytes);
 }
 
 export function decodeAnswers(code) {
   const bytes = fromBase64Url(code);
-  if (bytes[0] !== VERSION || bytes.length < 1 + QUESTIONS.length * 3) return null;
+  if (bytes[0] !== VERSION || bytes.length < 1 + QUESTIONS.length * 2) return null;
   const answers = {};
   QUESTIONS.forEach((q, i) => {
-    const offset = 1 + i * 3;
+    const offset = 1 + i * 2;
     const raw = bytes[offset];
     if (raw === UNANSWERED) return;
     const answer = blankAnswer();
-    if (raw === SKIPPED) {
-      answer.skipped = true;
-    } else {
-      answer.value = raw - 100;
-      answer.touched = true;
-    }
-    answer.weight = [0, 1, 2].includes(bytes[offset + 1]) ? bytes[offset + 1] : 1;
-    const mask = bytes[offset + 2];
+    answer.value = raw - 100;
+    answer.answered = true;
+    const mask = bytes[offset + 1];
     answer.nuances = q.nuances.filter((n, bit) => mask & (1 << bit)).map(n => n.id);
     answers[q.id] = answer;
   });

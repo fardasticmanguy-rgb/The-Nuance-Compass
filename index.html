@@ -6,14 +6,9 @@
 <title>The Nuance Compass</title>
 <meta name="description" content="A 100-question political test with sliders instead of boxes, and conditions instead of absolutes.">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div class="grain"></div>
-
 <header class="topbar">
   <a class="brand" href="#" data-nav="intro">
     <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
@@ -31,12 +26,12 @@
 
 <section class="screen intro" id="screen-intro">
   <div class="intro-hero">
-    <p class="eyebrow">One hundred questions · Six axes · No boxes to tick</p>
-    <h1>Politics is not <em>agree</em> or <em>disagree</em>.</h1>
+    <p class="eyebrow">100 questions · 6 axes</p>
+    <h1>Politics is not agree or disagree.</h1>
     <p class="lede">
-      Every compass test asks whether you agree. Almost nobody simply does. You agree
-      <em>up to a point</em>, or you agree <em>only if</em>, or you would agree if the question
-      meant the thing you think it means. This one is built around that.
+      Most compass tests ask whether you agree. Almost nobody simply does. You agree up to a
+      point, or only if, or you would agree if the question meant the thing you think it means.
+      This one lets you say which.
     </p>
     <div class="intro-actions">
       <button class="primary-btn" id="start-btn" type="button">Begin the test</button>
@@ -47,20 +42,20 @@
 
   <div class="intro-cards">
     <article class="feature">
-      <h3>A slider, not a box</h3>
-      <p>Answer anywhere on a continuous scale. Mild agreement and total conviction are not the same thing, and they are not scored the same way.</p>
-    </article>
-    <article class="feature">
       <h3>Conditions, not absolutes</h3>
-      <p>Every statement carries the clauses people actually add: <em>only if</em>, <em>unless</em>, <em>but not when</em>. Pick the ones you mean and they change your score.</p>
+      <p>Every statement carries the clauses people actually add: only if, unless, but not when. Pick the ones you mean and they change your score.</p>
     </article>
     <article class="feature">
-      <h3>Nothing is jargon</h3>
-      <p>Every question has an <span class="inline-info">i</span> explaining what it is really asking and what each side tends to imply. No assumed vocabulary.</p>
+      <h3>No jargon</h3>
+      <p>Every question has an explain button covering what it is really asking and what each side tends to imply.</p>
     </article>
     <article class="feature">
-      <h3>Six axes, one map</h3>
-      <p>Two axes cannot hold a person. You get the classic compass plus culture, borders, ecology and who you trust to decide.</p>
+      <h3>Six axes</h3>
+      <p>Two axes cannot hold a person. The classic compass, plus culture, borders, ecology and who you trust to decide.</p>
+    </article>
+    <article class="feature">
+      <h3>Answer how you like</h3>
+      <p>Five plain choices by default. If you want to place yourself between two of them, open the fine-tune scale.</p>
     </article>
   </div>
 
@@ -110,19 +105,26 @@
       <p id="info-text"></p>
     </div>
 
-    <div class="slider-block">
-      <div class="slider-labels">
-        <span>Strongly disagree</span>
-        <span>Neutral</span>
-        <span>Strongly agree</span>
+    <div class="answer-block">
+      <div class="choices" id="choices"></div>
+      <div class="answer-foot">
+        <span class="stance" id="stance">Not answered yet</span>
+        <button class="linkish" id="finetune-toggle" type="button" aria-expanded="false" aria-controls="slider-block">
+          Fine-tune
+        </button>
       </div>
-      <input class="slider" id="slider" type="range" min="-100" max="100" step="1" value="0"
-             aria-label="How strongly do you agree with this statement?">
-      <div class="slider-readout">
-        <span class="stance" id="stance">Undecided</span>
-        <span class="stance-value" id="stance-value">0</span>
+      <div class="slider-block" id="slider-block" hidden>
+        <input class="slider" id="slider" type="range" min="-100" max="100" step="5" value="0"
+               aria-label="How strongly do you agree with this statement?">
+        <div class="slider-scale">
+          <span>-100</span>
+          <span>-50</span>
+          <span>0</span>
+          <span>+50</span>
+          <span>+100</span>
+        </div>
+        <p class="slider-note">Snaps to the five choices, or any step of 5 in between. Current value: <b id="stance-value">0</b></p>
       </div>
-      <div class="quick-set" id="quick-set"></div>
     </div>
 
     <div class="nuance-block" id="nuance-block" hidden>
@@ -130,21 +132,16 @@
       <div class="nuance-list" id="nuance-list"></div>
     </div>
 
-    <div class="weight-block">
-      <span class="weight-label">How much does this one matter to you?</span>
-      <div class="weight-options" id="weight-options"></div>
-    </div>
   </article>
 
   <nav class="quiz-nav">
     <button class="secondary-btn" id="prev-btn" type="button">Back</button>
-    <button class="ghost-btn" id="skip-btn" type="button">No opinion</button>
     <button class="primary-btn" id="next-btn" type="button">Next</button>
   </nav>
 
   <p class="keys">
-    <kbd>←</kbd><kbd>→</kbd> move the slider · <kbd>1</kbd> to <kbd>5</kbd> jump to a stance ·
-    <kbd>Enter</kbd> next · <kbd>i</kbd> explain · <kbd>Esc</kbd> save and exit
+    <kbd>1</kbd> to <kbd>5</kbd> pick an answer · <kbd>Enter</kbd> next · <kbd>Backspace</kbd> back ·
+    <kbd>i</kbd> explain
   </p>
 </section>
 

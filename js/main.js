@@ -1,6 +1,6 @@
 import { AXES } from "./data/axes.js";
 import { QUESTIONS } from "./data/questions.js";
-import { state, load, save, clearSaved, answeredCount, firstUnanswered, loadTheme, saveTheme } from "./state.js";
+import { state, load, clearSaved, answeredCount, firstUnanswered, loadTheme, saveTheme } from "./state.js";
 import { initQuiz, render as renderQuestion, go, refreshProgress } from "./quiz.js";
 import { renderResults } from "./results.js";
 import { readShared } from "./share.js";
@@ -87,14 +87,6 @@ function boot() {
       show(link.dataset.nav);
     });
   }
-
-  document.addEventListener("keydown", event => {
-    if (event.key === "Escape" && !screens.quiz.hidden) {
-      save();
-      show("intro");
-      updateIntro();
-    }
-  });
 
   const shared = readShared();
   if (shared) {

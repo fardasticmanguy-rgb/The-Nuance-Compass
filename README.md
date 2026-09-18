@@ -10,8 +10,9 @@ agree if the statement meant the thing they think it means. This test is built a
 
 ## What makes it different
 
-**A slider, not a box.** Answers are continuous from −100 to +100. Leaning agree and agreeing
-without reservation are not the same position and are not scored the same.
+**Five choices, or a scale if you want one.** Answer with the usual five buttons. If you sit
+between two of them, open the fine-tune scale and place yourself anywhere from −100 to +100. It
+snaps to the five choices and to steps of 5 in between, so it never fights you.
 
 **Conditions, not absolutes.** Every statement carries the clauses people actually attach to their
 opinions. Move the slider to the agree side and you're offered the qualifiers of agreement
@@ -26,9 +27,6 @@ what "Georgism" means to answer honestly.
 
 **Six axes.** Two axes cannot hold a person, so the classic economic and authority axes are joined
 by culture, borders, ecology, and who you trust to make decisions.
-
-**Weighting.** Mark a question as minor, normal, or something that matters a lot to you, and it
-scales accordingly.
 
 ## Results
 
@@ -81,12 +79,12 @@ configuration. Point them at the repository root.
 
 ## How scoring works
 
-Each statement pulls on one or more axes with a signed weight. Your slider position scales that
-pull, and your importance weighting multiplies it. Selected conditions add their own smaller pulls,
-scaled by how strongly you answered the parent question.
+Each statement pulls on one or more axes with a signed weight, scaled by how strongly you
+answered. Selected conditions add their own smaller pulls, scaled by how strongly you answered the
+parent question.
 
 Each axis is normalised against the strongest possible answer to the questions you actually
-answered, so skipping questions shrinks the denominator instead of dragging you toward the centre.
+answered, so questions you leave shrink the denominator instead of dragging you toward the centre.
 
 Traditions and countries are matched by weighted Euclidean distance across all six axes, with the
 economic and authority axes counting slightly heavier since they carry the most questions.
@@ -100,7 +98,7 @@ encoded in the URL fragment, which browsers never transmit to a server.
 index.html              markup for all three screens
 css/style.css           styling, light and dark themes
 js/main.js              screen routing and boot
-js/quiz.js              question rendering, slider, conditions, keyboard control
+js/quiz.js              question rendering, answer control, conditions, keyboard control
 js/results.js           results screen
 js/compass.js           the compass plot, drawn as SVG
 js/scoring.js           scoring, normalisation, matching
