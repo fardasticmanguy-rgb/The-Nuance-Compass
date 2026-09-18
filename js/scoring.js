@@ -46,6 +46,7 @@ export function computeScores(answers) {
   const ceiling = blankAxisMap();
   const positive = blankAxisMap();
   const negative = blankAxisMap();
+  const counts = blankAxisMap();
   let answered = 0;
 
   for (const q of QUESTIONS) {
@@ -56,6 +57,7 @@ export function computeScores(answers) {
 
     for (const [axis, pull] of Object.entries(q.axes)) {
       const contribution = v * pull;
+      counts[axis] += 1;
       total[axis] += contribution;
       ceiling[axis] += Math.abs(pull);
       if (contribution > 0) positive[axis] += contribution;
@@ -83,7 +85,7 @@ export function computeScores(answers) {
     tension[key] = spread > 0 ? Math.min(positive[key], negative[key]) / spread : 0;
   }
 
-  return { scores, tension, answered, ceiling };
+  return { scores, tension, answered, ceiling, counts };
 }
 
 export function clamp(n, lo, hi) {
@@ -120,13 +122,14 @@ export function farthestCountry(scores) {
   return ranked(scores, COUNTRIES).slice(-1)[0];
 }
 
-export function axisLabels(scores) {
+export function axisLabels(scores, counts = {}) {
   return AXES.map(axis => {
     const score = scores[axis.key];
     const share = Math.round((score + 100) / 2);
     return {
       axis,
       score,
+      count: counts[axis.key] || 0,
       leftShare: 100 - share,
       rightShare: share,
       label: bandFor(axis, score),
@@ -158,6 +161,16 @@ export function biggestTension(tension) {
     if (!best || value > best.value) best = { axis, value };
   }
   return best;
+}
+
+export function measurementNote(counts) {
+  const rows = AXES.map(axis => ({ axis, count: counts[axis.key] || 0 })).filter(r => r.count > 0);
+  if (rows.length < 2) return null;
+  const sorted = [...rows].sort((a, b) => a.count - b.count);
+  const thinnest = sorted[0];
+  const thickest = sorted[sorted.length - 1];
+  if (thickest.count < thinnest.count * 1.4) return null;
+  return { thinnest, thickest };
 }
 
 export function quadrantOf(scores) {

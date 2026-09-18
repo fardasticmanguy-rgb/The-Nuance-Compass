@@ -2,7 +2,7 @@ import { AXES } from "./data/axes.js";
 import { COUNTRY_NOTE } from "./data/countries.js";
 import {
   computeScores, matchIdeologies, matchCountries, farthestCountry,
-  axisLabels, convictionHighlights, biggestTension, quadrantOf
+  axisLabels, convictionHighlights, biggestTension, quadrantOf, measurementNote
 } from "./scoring.js";
 import { compassSvg } from "./compass.js";
 import { state } from "./state.js";
@@ -21,8 +21,9 @@ const esc = text => String(text)
   .replace(/"/g, "&quot;");
 
 export function renderResults(container, handlers) {
-  const { scores, tension, answered } = computeScores(state.answers);
-  const rows = axisLabels(scores);
+  const { scores, tension, answered, counts } = computeScores(state.answers);
+  const rows = axisLabels(scores, counts);
+  const spread = measurementNote(counts);
   const ideologies = matchIdeologies(scores, 4);
   const countries = matchCountries(scores, 4);
   const opposite = farthestCountry(scores);
@@ -53,6 +54,11 @@ export function renderResults(container, handlers) {
       <h2 class="panel-title">Six axes</h2>
       <p class="panel-sub">Each bar is scored against the strongest answer you could have given.</p>
       <div class="axis-bars">${rows.map(axisBar).join("")}</div>
+      ${spread ? `<p class="note">Not every axis is measured equally well.
+        ${esc(spread.thinnest.axis.name)} rests on ${spread.thinnest.count} of your answers where
+        ${esc(spread.thickest.axis.name)} rests on ${spread.thickest.count}, so the
+        ${esc(spread.thinnest.axis.name.toLowerCase())} reading moves further per answer and is the
+        rougher of the two. Treat a narrow result on it as less settled than the same number here would be.</p>` : ""}
     </section>
 
     <section class="panel">
@@ -120,7 +126,7 @@ export function renderResults(container, handlers) {
 }
 
 function axisBar(row) {
-  const { axis, score, leftShare, rightShare, label } = row;
+  const { axis, score, leftShare, rightShare, label, count } = row;
   return `
     <div class="axis-bar" data-axis="${axis.key}">
       <div class="axis-bar-top">
@@ -138,7 +144,7 @@ function axisBar(row) {
         <span>${score > 0 ? "+" : ""}${score}</span>
         <span>${rightShare}%</span>
       </div>
-      <p class="axis-blurb">${esc(axis.blurb)}</p>
+      <p class="axis-blurb">${esc(axis.blurb)}${count ? ` Measured by ${count} of your answers.` : ""}</p>
     </div>`;
 }
 

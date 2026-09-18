@@ -1,7 +1,7 @@
 import { QUESTIONS } from "./data/questions.js";
 import { blankAnswer } from "./state.js";
 
-const VERSION = 2;
+const VERSION = 3;
 const UNANSWERED = 254;
 
 function toBase64Url(bytes) {

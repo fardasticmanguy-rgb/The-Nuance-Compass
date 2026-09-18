@@ -35,9 +35,12 @@ by culture, borders, ecology, and who you trust to make decisions.
 you tick a condition, so the scoring is never a black box you wait fifteen minutes to see the
 output of. Every twenty questions it stops and shows where you have landed so far.
 
-**Two lengths.** The full test is 100 questions. The short one is 30, picked to cover all six
-sections and balanced to within half a percent on every axis, so a five-minute run is not a worse
+**Two lengths.** The full test is 113 questions. The short one is 32, picked to cover all six
+sections and balanced to within about a percent on every axis, so a five-minute run is not a worse
 measurement, just a coarser one.
+
+**It admits what it does not measure well.** The axes do not rest on equal numbers of questions,
+so the results say which one is thinnest and warn that it moves further per answer.
 
 ## Results
 
@@ -59,16 +62,21 @@ answers and drops you on the question you had reached. A 100-answer link is abou
 
 ## The questions
 
-100 statements across six sections: money and work, power and the state, society and custom, nation
-and world, nature and machines, and crime and punishment. Between them they carry 220 conditional
+113 statements across six sections: money and work, power and the state, society and custom, nation
+and world, nature and machines, and crime and punishment. Between them they carry 248 conditional
 clauses.
 
 They're deliberately written broad rather than technical. The aim is to catch your instinct about
 a principle, not to quiz you on policy detail.
 
-The short test draws 30 of them, chosen by a balancing pass rather than by hand: it maximises axis
-coverage while driving the signed weight sum on every axis to zero. They're also **polarity balanced**: agreeing with all
-100 statements puts you within a point or two of dead centre on every axis, so the test can't be
+The short test draws 32 of them, chosen by a balancing pass rather than by hand: it maximises axis
+coverage while driving the signed weight sum on every axis to zero.
+
+The axes are not measured equally. Authority is carried by 67 questions, ecology by 27. That gap
+used to be wider, and closing it further means writing more questions for the thin axes rather
+than trimming the crowded ones, since deciding what to cut is exactly where a political thumb
+lands on the scale without anyone noticing. The results screen states the gap rather than hiding it. They're also **polarity balanced**: agreeing with all
+113 statements puts you within a point of dead centre on every axis, so the test can't be
 gamed by nodding along, and acquiescence bias doesn't quietly push everyone to one corner.
 
 ## Running it
