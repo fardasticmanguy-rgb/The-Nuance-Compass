@@ -166,9 +166,9 @@ function highlight(entry, kind) {
 
 function reviewRow(question, index) {
   const answer = state.answers[question.id];
-  const value = !answer || (!answer.touched && !answer.skipped)
-    ? "unanswered"
-    : answer.skipped ? "skipped" : (answer.value > 0 ? "+" : "") + answer.value;
+  const value = !answer || !answer.answered
+    ? "not answered"
+    : (answer.value > 0 ? "+" : "") + answer.value;
   return `
     <button class="review-row" type="button" data-goto="${index}">
       <span class="n">${index + 1}</span>
@@ -236,22 +236,22 @@ function cardSvg() {
     const y = barY + i * 34;
     const leftWidth = (row.leftShare / 100) * 400;
     return `
-      <text x="40" y="${y - 5}" font-size="12" fill="#8c95a8" font-family="Inter, sans-serif">${esc(row.axis.left)}</text>
-      <text x="600" y="${y - 5}" font-size="12" fill="#8c95a8" text-anchor="end" font-family="Inter, sans-serif">${esc(row.axis.right)}</text>
+      <text x="40" y="${y - 5}" font-size="12" fill="#8c95a8" font-family="Helvetica, Arial, sans-serif">${esc(row.axis.left)}</text>
+      <text x="600" y="${y - 5}" font-size="12" fill="#8c95a8" text-anchor="end" font-family="Helvetica, Arial, sans-serif">${esc(row.axis.right)}</text>
       <rect x="120" y="${y - 16}" width="400" height="14" rx="4" fill="${row.axis.rightColor}"/>
       <rect x="120" y="${y - 16}" width="${leftWidth}" height="14" rx="4" fill="${row.axis.leftColor}"/>
       <text x="320" y="${y - 5}" font-size="10.5" fill="#ffffff" text-anchor="middle" font-weight="600"
-        font-family="Inter, sans-serif">${esc(row.label)}</text>`;
+        font-family="Helvetica, Arial, sans-serif">${esc(row.label)}</text>`;
   }).join("");
 
   return `<svg xmlns="http://www.w3.org/2000/svg" width="640" height="1010" viewBox="0 0 640 1010">
     <rect width="640" height="1010" fill="#0d1017"/>
-    <text x="40" y="52" font-size="26" fill="#ffffff" font-family="Georgia, serif">The Nuance Compass</text>
-    <text x="40" y="76" font-size="13" fill="#8c95a8" font-family="Inter, sans-serif">${esc(ideologies[0].name)} · ${ideologies[0].match}% · closest state: ${esc(countries[0].name)}</text>
+    <text x="40" y="52" font-size="26" fill="#ffffff" font-family="Helvetica, Arial, sans-serif">The Nuance Compass</text>
+    <text x="40" y="76" font-size="13" fill="#8c95a8" font-family="Helvetica, Arial, sans-serif">${esc(ideologies[0].name)} · ${ideologies[0].match}% · closest state: ${esc(countries[0].name)}</text>
     <svg x="0" y="96" width="640" height="640" viewBox="0 0 640 640">${compassSvg(scores, "none").replace(/^<svg[^>]*>/, "").replace(/<\/svg>$/, "")}</svg>
-    <text x="40" y="780" font-size="13" fill="#ffffff" font-family="Inter, sans-serif" font-weight="600">Six axes</text>
+    <text x="40" y="780" font-size="13" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-weight="600">Six axes</text>
     ${bars}
-    <text x="40" y="992" font-size="11" fill="#5b6478" font-family="Inter, sans-serif">100 questions, 220 conditions, six axes.</text>
+    <text x="40" y="992" font-size="11" fill="#5b6478" font-family="Helvetica, Arial, sans-serif">100 questions, 220 conditions, six axes.</text>
   </svg>`;
 }
 

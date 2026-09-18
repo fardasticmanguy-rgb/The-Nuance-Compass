@@ -1,18 +1,22 @@
 import { QUESTIONS, SECTION_BY_ID } from "./data/questions.js";
-import { WEIGHT_LABELS, visibleNuances } from "./scoring.js";
+import { visibleNuances } from "./scoring.js";
 import { state, answerFor, answeredCount, save } from "./state.js";
 
-const QUICK_SET = [
-  { label: "Strongly disagree", value: -90 },
-  { label: "Disagree", value: -55 },
-  { label: "Neutral", value: 0 },
-  { label: "Agree", value: 55 },
-  { label: "Strongly agree", value: 90 }
+const CHOICES = [
+  { label: "Strongly disagree", value: -90, min: -100, max: -73 },
+  { label: "Disagree", value: -55, min: -72, max: -23 },
+  { label: "Neutral", value: 0, min: -22, max: 22 },
+  { label: "Agree", value: 55, min: 23, max: 72 },
+  { label: "Strongly agree", value: 90, min: 73, max: 100 }
 ];
+
+const SNAP_POINTS = CHOICES.map(c => c.value);
+const SNAP_RANGE = 8;
 
 const el = {};
 let onFinish = () => {};
 let infoOpen = false;
+let fineOpen = false;
 
 export function initQuiz(handlers) {
   onFinish = handlers.onFinish;
@@ -25,98 +29,70 @@ export function initQuiz(handlers) {
   el.infoBtn = document.getElementById("info-btn");
   el.infoPanel = document.getElementById("info-panel");
   el.infoText = document.getElementById("info-text");
-  el.slider = document.getElementById("slider");
+  el.choices = document.getElementById("choices");
   el.stance = document.getElementById("stance");
   el.stanceValue = document.getElementById("stance-value");
-  el.quickSet = document.getElementById("quick-set");
+  el.fineToggle = document.getElementById("finetune-toggle");
+  el.sliderBlock = document.getElementById("slider-block");
+  el.slider = document.getElementById("slider");
   el.nuanceBlock = document.getElementById("nuance-block");
   el.nuanceHead = document.getElementById("nuance-head");
   el.nuanceList = document.getElementById("nuance-list");
-  el.weightOptions = document.getElementById("weight-options");
   el.prevBtn = document.getElementById("prev-btn");
   el.nextBtn = document.getElementById("next-btn");
-  el.skipBtn = document.getElementById("skip-btn");
   el.topProgress = document.getElementById("topbar-progress");
   el.card = document.getElementById("question-card");
 
-  buildQuickSet();
-  buildWeightOptions();
+  buildChoices();
 
   el.slider.addEventListener("input", () => {
-    const answer = answerFor(current().id);
-    answer.value = Number(el.slider.value);
-    answer.skipped = false;
-    answer.touched = true;
-    paintSlider(answer);
-    paintNuances(current(), answer);
-    paintQuickSet(answer);
-    paintNav();
-    paintProgress();
-    save();
+    setValue(snap(Number(el.slider.value)), false);
   });
 
+  el.fineToggle.addEventListener("click", () => toggleFine());
   el.infoBtn.addEventListener("click", () => toggleInfo());
   el.prevBtn.addEventListener("click", () => go(state.position - 1));
   el.nextBtn.addEventListener("click", () => advance());
-  el.skipBtn.addEventListener("click", () => {
-    const answer = answerFor(current().id);
-    answer.skipped = true;
-    answer.touched = false;
-    answer.value = 0;
-    save();
-    advance();
-  });
 
   document.addEventListener("keydown", onKey);
+}
+
+function snap(raw) {
+  for (const point of SNAP_POINTS) {
+    if (Math.abs(raw - point) <= SNAP_RANGE) return point;
+  }
+  return Math.round(raw / 5) * 5;
 }
 
 function current() {
   return QUESTIONS[state.position];
 }
 
-function buildQuickSet() {
-  el.quickSet.innerHTML = "";
-  QUICK_SET.forEach((preset, i) => {
+function buildChoices() {
+  el.choices.innerHTML = "";
+  CHOICES.forEach((choice, i) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.textContent = preset.label;
-    button.dataset.value = String(preset.value);
+    button.className = "choice";
+    button.dataset.index = String(i);
     button.setAttribute("aria-pressed", "false");
-    button.title = "Shortcut: " + (i + 1);
-    button.addEventListener("click", () => setValue(preset.value));
-    el.quickSet.appendChild(button);
+    button.innerHTML = `<span class="choice-key">${i + 1}</span><span class="choice-label"></span>`;
+    button.lastElementChild.textContent = choice.label;
+    button.addEventListener("click", () => setValue(choice.value, true));
+    el.choices.appendChild(button);
   });
 }
 
-function buildWeightOptions() {
-  el.weightOptions.innerHTML = "";
-  WEIGHT_LABELS.forEach((label, index) => {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.textContent = label;
-    button.dataset.weight = String(index);
-    button.setAttribute("aria-pressed", String(index === 1));
-    button.addEventListener("click", () => {
-      const answer = answerFor(current().id);
-      answer.weight = index;
-      paintWeight(answer);
-      save();
-    });
-    el.weightOptions.appendChild(button);
-  });
-}
-
-function setValue(value) {
+function setValue(value, fromChoice) {
   const answer = answerFor(current().id);
   answer.value = value;
-  answer.skipped = false;
-  answer.touched = true;
-  el.slider.value = String(value);
-  paintSlider(answer);
+  answer.answered = true;
+  if (!fromChoice) el.slider.value = String(value);
+  paintStance(answer);
+  paintChoices(answer);
   paintNuances(current(), answer);
-  paintQuickSet(answer);
-  paintNav();
   paintProgress();
+  if (fromChoice) el.slider.value = String(value);
   save();
 }
 
@@ -150,17 +126,16 @@ export function render() {
   el.card.style.animation = "";
 
   el.sectionTag.textContent = section ? section.name : "";
-  el.counter.textContent = `Question ${state.position + 1} of ${QUESTIONS.length}`;
+  el.counter.textContent = `${state.position + 1} of ${QUESTIONS.length}`;
   el.cardIndex.textContent = section ? section.blurb : "";
   el.statement.textContent = question.text;
   el.infoText.textContent = question.info;
   el.infoPanel.hidden = !infoOpen;
   el.infoBtn.setAttribute("aria-expanded", String(infoOpen));
-  el.slider.value = String(answer.skipped ? 0 : answer.value);
+  el.slider.value = String(answer.value);
 
-  paintSlider(answer);
-  paintQuickSet(answer);
-  paintWeight(answer);
+  paintStance(answer);
+  paintChoices(answer);
   paintNuances(question, answer);
   paintNav();
   paintProgress();
@@ -169,36 +144,30 @@ export function render() {
 function stanceFor(value) {
   const magnitude = Math.abs(value);
   const direction = value > 0 ? "agree" : "disagree";
-  if (magnitude <= 5) return "Undecided";
-  if (magnitude <= 25) return "Leaning " + direction;
+  if (magnitude <= 5) return "Neutral";
+  if (magnitude <= 25) return "Lean " + direction;
   if (magnitude <= 60) return direction === "agree" ? "Agree" : "Disagree";
   if (magnitude <= 88) return "Strongly " + direction;
-  return direction === "agree" ? "Agree without reservation" : "Reject outright";
+  return direction === "agree" ? "Agree completely" : "Reject completely";
 }
 
-function paintSlider(answer) {
-  const value = answer.skipped ? 0 : answer.value;
-  el.stance.textContent = answer.skipped ? "No opinion recorded" : stanceFor(value);
-  el.stanceValue.textContent = answer.skipped ? "skipped" : (value > 0 ? "+" : "") + value;
-  const hue = value > 5 ? "var(--green)" : value < -5 ? "var(--red)" : "var(--text)";
-  el.stance.style.color = answer.skipped ? "var(--text-faint)" : hue;
+function paintStance(answer) {
+  el.stance.textContent = answer.answered ? stanceFor(answer.value) : "Not answered yet";
+  el.stance.classList.toggle("muted", !answer.answered);
+  el.stanceValue.textContent = (answer.value > 0 ? "+" : "") + answer.value;
 }
 
-function paintQuickSet(answer) {
-  for (const button of el.quickSet.children) {
-    const match = !answer.skipped && Number(button.dataset.value) === answer.value;
-    button.setAttribute("aria-pressed", String(match));
-  }
-}
-
-function paintWeight(answer) {
-  for (const button of el.weightOptions.children) {
-    button.setAttribute("aria-pressed", String(Number(button.dataset.weight) === answer.weight));
+function paintChoices(answer) {
+  for (const button of el.choices.children) {
+    const choice = CHOICES[Number(button.dataset.index)];
+    const active = answer.answered && answer.value >= choice.min && answer.value <= choice.max;
+    button.setAttribute("aria-pressed", String(active));
+    button.classList.toggle("approx", active && answer.value !== choice.value);
   }
 }
 
 function paintNuances(question, answer) {
-  const options = answer.skipped ? [] : visibleNuances(question, answer.value);
+  const options = answer.answered ? visibleNuances(question, answer.value) : [];
   if (!options.length) {
     el.nuanceBlock.hidden = true;
     el.nuanceList.innerHTML = "";
@@ -235,20 +204,25 @@ function paintNuances(question, answer) {
 
 function paintNav() {
   el.prevBtn.disabled = state.position === 0;
-  const last = state.position === QUESTIONS.length - 1;
-  el.nextBtn.textContent = last ? "See results" : "Next";
+  el.nextBtn.textContent = state.position === QUESTIONS.length - 1 ? "See results" : "Next";
 }
 
 function paintProgress() {
   const done = answeredCount();
-  const pct = (done / QUESTIONS.length) * 100;
-  el.progressFill.style.width = pct + "%";
+  el.progressFill.style.width = (done / QUESTIONS.length) * 100 + "%";
   el.topProgress.hidden = false;
-  el.topProgress.textContent = `${done} / ${QUESTIONS.length} answered`;
+  el.topProgress.textContent = `${done} of ${QUESTIONS.length}`;
 }
 
 export function refreshProgress() {
   paintProgress();
+}
+
+function toggleFine(force) {
+  fineOpen = force === undefined ? !fineOpen : force;
+  el.sliderBlock.hidden = !fineOpen;
+  el.fineToggle.setAttribute("aria-expanded", String(fineOpen));
+  el.fineToggle.textContent = fineOpen ? "Hide scale" : "Fine-tune";
 }
 
 function toggleInfo(force) {
@@ -258,23 +232,14 @@ function toggleInfo(force) {
 }
 
 function onKey(event) {
-  const quizVisible = !document.getElementById("screen-quiz").hidden;
-  if (!quizVisible) return;
+  if (document.getElementById("screen-quiz").hidden) return;
   if (event.metaKey || event.ctrlKey || event.altKey) return;
+  if (event.target.tagName === "INPUT" && event.target.type !== "range") return;
 
-  const tag = event.target.tagName;
-  const typing = tag === "INPUT" && event.target.type !== "range";
-  if (typing) return;
-
-  const answer = answerFor(current().id);
-  const step = event.shiftKey ? 20 : 5;
-
-  if (event.key === "ArrowRight" && tag !== "INPUT") {
+  const choice = CHOICES[Number(event.key) - 1];
+  if (choice) {
     event.preventDefault();
-    setValue(Math.min(100, (answer.skipped ? 0 : answer.value) + step));
-  } else if (event.key === "ArrowLeft" && tag !== "INPUT") {
-    event.preventDefault();
-    setValue(Math.max(-100, (answer.skipped ? 0 : answer.value) - step));
+    setValue(choice.value, true);
   } else if (event.key === "Enter") {
     event.preventDefault();
     advance();
@@ -283,8 +248,5 @@ function onKey(event) {
     go(state.position - 1);
   } else if (event.key === "i") {
     toggleInfo();
-  } else if (QUICK_SET[Number(event.key) - 1]) {
-    event.preventDefault();
-    setValue(QUICK_SET[Number(event.key) - 1].value);
   }
 }

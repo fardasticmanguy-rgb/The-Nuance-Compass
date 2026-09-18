@@ -3,10 +3,6 @@ import { QUESTIONS } from "./data/questions.js";
 import { IDEOLOGIES } from "./data/ideologies.js";
 import { COUNTRIES } from "./data/countries.js";
 
-export const WEIGHTS = [0.5, 1, 1.6];
-
-export const WEIGHT_LABELS = ["Minor to me", "Normal", "Matters a lot"];
-
 const AXIS_IMPORTANCE = { econ: 1.25, auth: 1.25, cult: 1, natl: 0.95, ecol: 0.9, govn: 0.8 };
 
 const MATCH_SCALE = 110;
@@ -35,15 +31,14 @@ export function computeScores(answers) {
 
   for (const q of QUESTIONS) {
     const a = answers[q.id];
-    if (!a || a.skipped) continue;
+    if (!a || !a.answered) continue;
     answered += 1;
     const v = a.value / 100;
-    const w = WEIGHTS[a.weight] ?? 1;
 
     for (const [axis, pull] of Object.entries(q.axes)) {
-      const contribution = v * pull * w;
+      const contribution = v * pull;
       total[axis] += contribution;
-      ceiling[axis] += Math.abs(pull) * w;
+      ceiling[axis] += Math.abs(pull);
       if (contribution > 0) positive[axis] += contribution;
       else negative[axis] -= contribution;
     }
@@ -53,9 +48,9 @@ export function computeScores(answers) {
       if (!a.nuances.includes(nuance.id)) continue;
       if (!isNuanceActive(nuance, a.value)) continue;
       for (const [axis, pull] of Object.entries(nuance.axes)) {
-        const contribution = pull * w * conviction;
+        const contribution = pull * conviction;
         total[axis] += contribution;
-        ceiling[axis] += Math.abs(pull) * w * 0.45;
+        ceiling[axis] += Math.abs(pull) * 0.45;
         if (contribution > 0) positive[axis] += contribution;
         else negative[axis] -= contribution;
       }
@@ -125,9 +120,8 @@ export function axisLabels(scores) {
 export function convictionHighlights(answers, limit = 4) {
   const scored = QUESTIONS.map(q => {
     const a = answers[q.id];
-    if (!a || a.skipped) return null;
-    const force = Math.abs(a.value) * (WEIGHTS[a.weight] ?? 1);
-    return { question: q, answer: a, force };
+    if (!a || !a.answered) return null;
+    return { question: q, answer: a, force: Math.abs(a.value) };
   }).filter(Boolean);
 
   const strongest = [...scored].sort((a, b) => b.force - a.force).slice(0, limit);

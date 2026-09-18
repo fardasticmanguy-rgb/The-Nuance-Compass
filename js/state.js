@@ -5,12 +5,11 @@ const THEME_KEY = "nuance-compass-theme";
 
 export const state = {
   answers: {},
-  position: 0,
-  visited: new Set()
+  position: 0
 };
 
 export function blankAnswer() {
-  return { value: 0, weight: 1, nuances: [], skipped: false, touched: false };
+  return { value: 0, nuances: [], answered: false };
 }
 
 export function answerFor(id) {
@@ -19,21 +18,11 @@ export function answerFor(id) {
 }
 
 export function answeredCount() {
-  return QUESTIONS.filter(q => {
-    const a = state.answers[q.id];
-    return a && (a.touched || a.skipped);
-  }).length;
-}
-
-export function isComplete() {
-  return answeredCount() === QUESTIONS.length;
+  return QUESTIONS.filter(q => state.answers[q.id] && state.answers[q.id].answered).length;
 }
 
 export function firstUnanswered() {
-  const index = QUESTIONS.findIndex(q => {
-    const a = state.answers[q.id];
-    return !a || (!a.touched && !a.skipped);
-  });
+  const index = QUESTIONS.findIndex(q => !state.answers[q.id] || !state.answers[q.id].answered);
   return index === -1 ? QUESTIONS.length - 1 : index;
 }
 
@@ -42,7 +31,9 @@ export function save() {
     const payload = {
       position: state.position,
       answers: Object.fromEntries(
-        Object.entries(state.answers).map(([id, a]) => [id, [a.value, a.weight, a.nuances, a.skipped ? 1 : 0, a.touched ? 1 : 0]])
+        Object.entries(state.answers)
+          .filter(([, a]) => a.answered)
+          .map(([id, a]) => [id, [a.value, a.nuances]])
       )
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
@@ -63,10 +54,8 @@ export function load() {
       if (!Array.isArray(tuple)) continue;
       state.answers[id] = {
         value: clampValue(tuple[0]),
-        weight: [0, 1, 2].includes(tuple[1]) ? tuple[1] : 1,
-        nuances: Array.isArray(tuple[2]) ? tuple[2] : [],
-        skipped: Boolean(tuple[3]),
-        touched: Boolean(tuple[4])
+        nuances: Array.isArray(tuple[1]) ? tuple[1] : [],
+        answered: true
       };
     }
     return answeredCount() > 0;

@@ -53,7 +53,7 @@ function referencePoints(mode, scores) {
     return `<g class="ref">
       <circle cx="${x}" cy="${y}" r="3.4" fill="#0b0d12" stroke="#ffffff" stroke-width="1.2" opacity="0.85"/>
       ${crowded ? "" : `<text x="${labelX}" y="${y + 3.6}" text-anchor="${anchor}" font-size="10.5" fill="#ffffff" opacity="0.72"
-        stroke="#0b0d12" stroke-width="2.6" paint-order="stroke" font-family="Inter, system-ui, sans-serif">${esc(name)}</text>`}
+        stroke="#0b0d12" stroke-width="2.6" paint-order="stroke" font-family="Helvetica, Arial, sans-serif">${esc(name)}</text>`}
     </g>`;
   }).join("");
 }
@@ -79,13 +79,13 @@ export function compassSvg(scores, mode = "ideologies", options = {}) {
   <rect x="${PAD}" y="${PAD}" width="${PLOT}" height="${PLOT}" fill="none" stroke="${frame}" stroke-width="2"/>
 
   <text x="${mid}" y="${PAD - 22}" text-anchor="middle" font-size="15" letter-spacing="3.4" fill="${axisInk}"
-    font-family="Inter, system-ui, sans-serif" font-weight="600">AUTHORITARIAN</text>
+    font-family="Helvetica, Arial, sans-serif" font-weight="600">AUTHORITARIAN</text>
   <text x="${mid}" y="${PAD + PLOT + 34}" text-anchor="middle" font-size="15" letter-spacing="3.4" fill="${axisInk}"
-    font-family="Inter, system-ui, sans-serif" font-weight="600">LIBERTARIAN</text>
+    font-family="Helvetica, Arial, sans-serif" font-weight="600">LIBERTARIAN</text>
   <text x="${PAD - 20}" y="${mid}" text-anchor="middle" font-size="15" letter-spacing="3.4" fill="${axisInk}"
-    font-family="Inter, system-ui, sans-serif" font-weight="600" transform="rotate(-90 ${PAD - 20} ${mid})">EQUALITY</text>
+    font-family="Helvetica, Arial, sans-serif" font-weight="600" transform="rotate(-90 ${PAD - 20} ${mid})">EQUALITY</text>
   <text x="${PAD + PLOT + 22}" y="${mid}" text-anchor="middle" font-size="15" letter-spacing="3.4" fill="${axisInk}"
-    font-family="Inter, system-ui, sans-serif" font-weight="600" transform="rotate(90 ${PAD + PLOT + 22} ${mid})">MARKETS</text>
+    font-family="Helvetica, Arial, sans-serif" font-weight="600" transform="rotate(90 ${PAD + PLOT + 22} ${mid})">MARKETS</text>
 
   ${referencePoints(mode, scores)}
 
@@ -95,8 +95,8 @@ export function compassSvg(scores, mode = "ideologies", options = {}) {
     <circle cx="${x}" cy="${y}" r="9" fill="#111318" stroke="#ffffff" stroke-width="3"/>
   </g>
   <text x="${x}" y="${y - 34}" text-anchor="middle" font-size="13" font-weight="700" fill="#ffffff"
-    stroke="#0b0d12" stroke-width="3.4" paint-order="stroke" font-family="Inter, system-ui, sans-serif">YOU</text>
+    stroke="#0b0d12" stroke-width="3.4" paint-order="stroke" font-family="Helvetica, Arial, sans-serif">YOU</text>
   <text x="${x}" y="${y + 40}" text-anchor="middle" font-size="12" font-weight="600" fill="#ffffff"
-    stroke="#0b0d12" stroke-width="3" paint-order="stroke" font-family="Inter, system-ui, sans-serif">${scores.econ > 0 ? "+" : ""}${scores.econ}, ${scores.auth > 0 ? "+" : ""}${scores.auth}</text>
+    stroke="#0b0d12" stroke-width="3" paint-order="stroke" font-family="Helvetica, Arial, sans-serif">${scores.econ > 0 ? "+" : ""}${scores.econ}, ${scores.auth > 0 ? "+" : ""}${scores.auth}</text>
 </svg>`;
 }
