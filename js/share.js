@@ -1,4 +1,4 @@
-import { QUESTIONS } from "./data/questions.js";
+import { CANONICAL_QUESTIONS } from "./data/questions.js";
 import { blankAnswer } from "./state.js";
 
 const VERSION = 3;
@@ -19,9 +19,9 @@ function fromBase64Url(text) {
 }
 
 export function encodeAnswers(answers) {
-  const bytes = new Uint8Array(1 + QUESTIONS.length * 2);
+  const bytes = new Uint8Array(1 + CANONICAL_QUESTIONS.length * 2);
   bytes[0] = VERSION;
-  QUESTIONS.forEach((q, i) => {
+  CANONICAL_QUESTIONS.forEach((q, i) => {
     const a = answers[q.id];
     const offset = 1 + i * 2;
     if (!a || !a.answered) {
@@ -40,9 +40,9 @@ export function encodeAnswers(answers) {
 
 export function decodeAnswers(code) {
   const bytes = fromBase64Url(code);
-  if (bytes[0] !== VERSION || bytes.length < 1 + QUESTIONS.length * 2) return null;
+  if (bytes[0] !== VERSION || bytes.length < 1 + CANONICAL_QUESTIONS.length * 2) return null;
   const answers = {};
-  QUESTIONS.forEach((q, i) => {
+  CANONICAL_QUESTIONS.forEach((q, i) => {
     const offset = 1 + i * 2;
     const raw = bytes[offset];
     if (raw === UNANSWERED) return;

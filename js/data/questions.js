@@ -14,11 +14,29 @@ import { WORLD } from "./sections/world.js";
 import { EARTH } from "./sections/earth.js";
 import { JUSTICE } from "./sections/justice.js";
 
-export const QUESTIONS = [...WORK, ...POWER, ...SOCIETY, ...WORLD, ...EARTH, ...JUSTICE].map((q, i) => ({
-  ...q,
-  index: i,
-  nuances: (q.nuances || []).map((n, j) => ({ ...n, id: q.id + "-" + j }))
-}));
+export const CANONICAL_QUESTIONS = [...WORK, ...POWER, ...SOCIETY, ...WORLD, ...EARTH, ...JUSTICE]
+  .map((q, i) => ({
+    ...q,
+    index: i,
+    nuances: (q.nuances || []).map((n, j) => ({ ...n, id: q.id + "-" + j }))
+  }));
+
+function spread(questions) {
+  const order = SECTIONS.map(s => s.id);
+  const sizes = {};
+  for (const q of questions) sizes[q.section] = (sizes[q.section] || 0) + 1;
+
+  const seen = {};
+  return questions
+    .map(q => {
+      const rank = seen[q.section] = (seen[q.section] || 0) + 1;
+      return { q, at: (rank - 0.5) / sizes[q.section], tie: order.indexOf(q.section) };
+    })
+    .sort((a, b) => a.at - b.at || a.tie - b.tie)
+    .map(entry => entry.q);
+}
+
+export const QUESTIONS = spread(CANONICAL_QUESTIONS);
 
 export const SECTION_BY_ID = Object.fromEntries(SECTIONS.map(s => [s.id, s]));
 
