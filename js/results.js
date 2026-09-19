@@ -1,4 +1,5 @@
 import { AXES } from "./data/axes.js";
+import { fetchStats, crowdLine, axisLine } from "./stats.js";
 import { COUNTRY_NOTE } from "./data/countries.js";
 import {
   computeScores, matchIdeologies, matchCountries, farthestCountry,
@@ -114,15 +115,23 @@ export function renderResults(container, handlers) {
       <button class="ghost-btn" id="retake" type="button">Start again</button>
     </div>
 
+    <section class="panel" id="crowd-panel" hidden>
+      <h2 class="panel-title">How you compare</h2>
+      <p class="panel-sub" id="crowd-sub"></p>
+      <ul class="crowd-list" id="crowd-list"></ul>
+    </section>
+
     <section class="panel" id="review-panel" hidden>
       <h2 class="panel-title">Your answers</h2>
-      <p class="panel-sub">Click any line to go back and change it.</p>
+      <p class="panel-sub">Click any line to go back and change it. Where enough people have
+      answered, you can see what they picked.</p>
       <div class="review-list">${state.questions.map(reviewRow).join("")}</div>
     </section>
   `;
 
   wire(container, handlers);
   requestAnimationFrame(() => animateBars(container, rows));
+  paintCrowd(container, rows);
 }
 
 function axisBar(row) {
@@ -178,11 +187,41 @@ function reviewRow(question, index) {
     ? "not answered"
     : (answer.value > 0 ? "+" : "") + answer.value;
   return `
-    <button class="review-row" type="button" data-goto="${index}">
+    <button class="review-row" type="button" data-goto="${index}" data-qid="${question.id}">
       <span class="n">${index + 1}</span>
-      <span class="t">${esc(question.text)}</span>
+      <span class="t">${esc(question.text)}<span class="crowd-note" hidden></span></span>
       <span class="v">${value}</span>
     </button>`;
+}
+
+async function paintCrowd(container, rows) {
+  const data = await fetchStats(rows);
+  if (!data || !data.total) return;
+
+  const lines = rows
+    .map(row => ({ row, text: axisLine(data.axes[row.axis.key], row.axis) }))
+    .filter(entry => entry.text);
+
+  if (lines.length) {
+    const panel = container.querySelector("#crowd-panel");
+    container.querySelector("#crowd-sub").textContent =
+      `Against the ${data.total} ${data.total === 1 ? "person" : "people"} who have finished this so far.`;
+    container.querySelector("#crowd-list").innerHTML = lines
+      .map(entry => `<li><span>${esc(entry.row.axis.name)}</span><strong>${esc(entry.text)}</strong></li>`)
+      .join("");
+    panel.hidden = false;
+  }
+
+  for (const button of container.querySelectorAll(".review-row[data-qid]")) {
+    const answer = state.answers[button.dataset.qid];
+    if (!answer || !answer.answered) continue;
+    const line = crowdLine(data.questions[button.dataset.qid], answer.value);
+    if (!line) continue;
+    const note = button.querySelector(".crowd-note");
+    note.textContent = line.text;
+    note.dataset.tone = line.tone;
+    note.hidden = false;
+  }
 }
 
 function wire(container, handlers) {

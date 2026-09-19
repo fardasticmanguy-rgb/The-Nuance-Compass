@@ -60,7 +60,7 @@ so the results say which one is thinnest and warn that it moves further per answ
 
 ## Picking it up elsewhere
 
-There is no account and no server. Answers live in `localStorage`, so they survive a refresh on
+There is no account. Answers live in `localStorage`, so they survive a refresh on
 the device you started on. To move mid-test, hit **Copy a link to continue on another device**:
 every answer is packed into the URL fragment, and opening that link anywhere restores your
 answers and drops you on the question you had reached. A 100-answer link is about 300 characters.
@@ -123,8 +123,21 @@ answered, so questions you leave shrink the denominator instead of dragging you 
 Traditions and countries are matched by weighted Euclidean distance across all six axes, with the
 economic and authority axes counting slightly heavier since they carry the most questions.
 
-Nothing is sent anywhere. Answers live in `localStorage`, and shared links carry the full result
-encoded in the URL fragment, which browsers never transmit to a server.
+## What everyone else said
+
+Once a question has been answered by at least thirty people, your results show how you compare:
+`You were in the 25% who disagreed with this. Most people, 66%, agreed with it.` The six axes get
+the same treatment as a percentile.
+
+Finished tests are pooled to build those numbers, which the front page says plainly and lets you
+turn off before you start. What gets stored is the answer values and the six axis scores, and
+nothing else: no account, no name, no cookie, no identifier tying one submission to another or to
+a person. There is nothing in a row to trace back. Rows cannot be read back individually by the
+site either, only counted: the public key may insert, and reads go through aggregate functions
+that refuse to report on fewer than thirty responses.
+
+Shared links are unaffected and still carry the full result in the URL fragment, which browsers
+never transmit to a server.
 
 ## Structure
 
@@ -140,6 +153,7 @@ js/scoring.js           scoring, normalisation, matching
 js/state.js             localStorage persistence and which question set is active
 js/toast.js             transient confirmation messages
 js/share.js             result encoding for shareable links
+js/stats.js             pooled answer submission and the comparison figures
 js/data/axes.js         the six axes and their position labels
 js/data/questions.js    question index
 js/data/sections/       the 100 questions, by section

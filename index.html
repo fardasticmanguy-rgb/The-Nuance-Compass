@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>The Nuance Compass — A Political Compass Test Built on Conditions, Not Absolutes</title>
-<meta name="description" content="The Nuance Compass is a free 100-question political compass test scored across six axes. Answer on a scale instead of yes or no, attach the conditions you actually mean, and get a map of your politics instead of a label. Runs entirely in your browser.">
+<title>The Nuance Compass: a political compass test built on conditions, not absolutes</title>
+<meta name="description" content="The Nuance Compass is a free 100-question political compass test scored across six axes. Answer on a scale instead of yes or no, attach the conditions you actually mean, and see how your answers compare with everyone else who has taken it.">
 <link rel="canonical" href="https://fardasticmanguy-rgb.github.io/The-Nuance-Compass/">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f6f7f8" media="(prefers-color-scheme: light)">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Nuance Compass">
-<meta property="og:title" content="The Nuance Compass — a political test that admits people don't answer in yes or no">
+<meta property="og:title" content="The Nuance Compass: a political test that admits people don't answer in yes or no">
 <meta property="og:description" content="A free 100-question political compass test across six axes. Answer on a scale, attach conditions like “only if” and “unless”, and get a map instead of a label.">
 <meta property="og:url" content="https://fardasticmanguy-rgb.github.io/The-Nuance-Compass/">
 <meta property="og:locale" content="en_US">
@@ -19,12 +19,12 @@
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="The Nuance Compass — 100 questions, six axes">
+<meta property="og:image:alt" content="The Nuance Compass, 100 questions, six axes">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The Nuance Compass — a political test that admits people don't answer in yes or no">
+<meta name="twitter:title" content="The Nuance Compass: a political test that admits people don't answer in yes or no">
 <meta name="twitter:description" content="A free 100-question political compass test across six axes. Answer on a scale, attach conditions like “only if” and “unless”, and get a map instead of a label.">
 <meta name="twitter:image" content="https://fardasticmanguy-rgb.github.io/The-Nuance-Compass/assets/og.png">
-<meta name="twitter:image:alt" content="The Nuance Compass — 100 questions, six axes">
+<meta name="twitter:image:alt" content="The Nuance Compass, 100 questions, six axes">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="stylesheet" href="css/style.css">
@@ -38,7 +38,7 @@
       "url": "https://fardasticmanguy-rgb.github.io/The-Nuance-Compass/",
       "name": "The Nuance Compass",
       "alternateName": ["Nuance Compass", "The Nuance Compass test"],
-      "description": "The Nuance Compass is a free 100-question political compass test scored across six axes. Answer on a scale instead of yes or no, attach the conditions you actually mean, and get a map of your politics instead of a label. Runs entirely in your browser.",
+      "description": "The Nuance Compass is a free 100-question political compass test scored across six axes. Answer on a scale instead of yes or no, attach the conditions you actually mean, and see how your answers compare with everyone else who has taken it.",
       "inLanguage": "en"
     },
     {
@@ -50,7 +50,7 @@
       "applicationSubCategory": "Political compass test",
       "operatingSystem": "Any modern web browser",
       "browserRequirements": "Requires JavaScript",
-      "description": "The Nuance Compass is a free 100-question political compass test scored across six axes. Answer on a scale instead of yes or no, attach the conditions you actually mean, and get a map of your politics instead of a label. Runs entirely in your browser.",
+      "description": "The Nuance Compass is a free 100-question political compass test scored across six axes. Answer on a scale instead of yes or no, attach the conditions you actually mean, and see how your answers compare with everyone else who has taken it.",
       "image": "https://fardasticmanguy-rgb.github.io/The-Nuance-Compass/assets/og.png",
       "isAccessibleForFree": true,
       "isPartOf": { "@id": "https://fardasticmanguy-rgb.github.io/The-Nuance-Compass/#website" },
@@ -61,7 +61,7 @@
         "Conditions such as only if, unless and but not when that change your score",
         "Six axes: economics, authority, culture, borders, ecology and who decides",
         "Plain-language explanations for every question",
-        "Answers stay in your browser and never reach a server"
+        "Answers carry no identifying information and are only ever shown as pooled totals"
       ]
     },
     {
@@ -98,7 +98,7 @@
           "name": "Is it free, and does it collect my answers?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "It is free and there is no account or sign-up. The test runs entirely in your browser, your answers are stored only on your own device, and nothing is sent to a server."
+            "text": "It is free and there is no account or sign-up. Your progress is saved on your own device. If you leave the totals box ticked, your finished answers are added to the pooled percentages shown to everyone at the end, with nothing saved alongside them that identifies you: no account, no name, no cookie. Untick the box and nothing is sent at all."
           }
         }
       ]
@@ -144,6 +144,16 @@
       <button class="ghost-btn" id="resume-btn" type="button" hidden>Resume where you left off</button>
     </div>
     <div class="live-toggle">
+      <label for="share-toggle-input">
+        <input type="checkbox" id="share-toggle-input" checked>
+        <span>
+          <b>Count my answers in the totals everyone sees</b>
+          On by default. At the end you get to see what everyone else picked, and your answers feed
+          those percentages. Nothing that identifies you is saved with them: no account, no name, no
+          cookie. The answers are only ever shown added up, and they are not sold or handed to
+          anyone.
+        </span>
+      </label>
       <label for="live-toggle-input">
         <input type="checkbox" id="live-toggle-input">
         <span>
@@ -154,7 +164,7 @@
       </label>
     </div>
 
-    <p class="intro-meta" id="intro-meta">Takes about 15 minutes. Nothing leaves your browser.</p>
+    <p class="intro-meta" id="intro-meta">Takes about 15 minutes. Your progress is saved on this device only.</p>
   </div>
 
   <div class="intro-cards">
@@ -178,6 +188,11 @@
     <article class="feature">
       <h3>No score until the end</h3>
       <p>The test does not show you where you are landing while you answer, because a result you can see is a result you start aiming at.</p>
+    </article>
+
+    <article class="feature">
+      <h3>See what everyone else said</h3>
+      <p>Once enough people have answered a question, your results show how you compare. Being in the 8% on something is more interesting than the score.</p>
     </article>
   </div>
 
@@ -238,11 +253,17 @@
     </details>
 
     <details class="method">
-      <summary>Is it free, and does it collect my answers?</summary>
+      <summary>Is it free, and what happens to my answers?</summary>
       <div class="method-body">
         <p>
-          It is free, with no account and no sign-up. The test runs entirely in your browser, your
-          answers are stored only on your own device, and nothing is sent to a server.
+          It is free, with no account and no sign-up. Your progress is saved on your own device as
+          you go. If you leave the totals box ticked on the front page, your finished answers are
+          also added to the pooled percentages that everyone sees at the end.
+        </p>
+        <p>
+          Nothing that identifies you is saved alongside them: no account, no name, no cookie,
+          nothing tying one set of answers to another. They exist only to be counted, and they are
+          not sold or handed to anyone. Untick the box and nothing is sent at all.
         </p>
       </div>
     </details>
@@ -332,7 +353,7 @@
 </main>
 
 <footer class="footer">
-  <span>The Nuance Compass — built as a portfolio piece. Opinions are yours, arithmetic is mine.</span>
+  <span>The Nuance Compass, built as a portfolio piece. Opinions are yours, arithmetic is mine.</span>
   <span class="footer-links">
     <button class="linkish" id="reset-all" type="button">Clear saved answers</button>
   </span>

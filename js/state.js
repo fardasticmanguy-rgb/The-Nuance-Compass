@@ -3,13 +3,15 @@ import { QUESTIONS, QUICK_QUESTIONS } from "./data/questions.js";
 const STORAGE_KEY = "nuance-compass-v1";
 const THEME_KEY = "nuance-compass-theme";
 const LIVE_KEY = "nuance-compass-live";
+const SHARE_KEY = "nuance-compass-share";
 
 export const state = {
   answers: {},
   position: 0,
   mode: "full",
   questions: QUESTIONS,
-  livePreview: false
+  livePreview: false,
+  shareStats: true
 };
 
 export function setMode(mode) {
@@ -120,6 +122,26 @@ export function setLivePreview(on) {
     void err;
   }
   return state.livePreview;
+}
+
+export function loadShareStats() {
+  try {
+    state.shareStats = localStorage.getItem(SHARE_KEY) !== "off";
+  } catch (err) {
+    void err;
+    state.shareStats = true;
+  }
+  return state.shareStats;
+}
+
+export function setShareStats(on) {
+  state.shareStats = Boolean(on);
+  try {
+    localStorage.setItem(SHARE_KEY, state.shareStats ? "on" : "off");
+  } catch (err) {
+    void err;
+  }
+  return state.shareStats;
 }
 
 export function saveTheme(theme) {

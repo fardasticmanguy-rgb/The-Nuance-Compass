@@ -1,6 +1,8 @@
 import { AXES } from "./data/axes.js";
 import { state, load, clearSaved, answeredCount, firstUnanswered, loadTheme, saveTheme, setMode,
-  loadLivePreview, setLivePreview } from "./state.js";
+  loadLivePreview, setLivePreview, loadShareStats, setShareStats } from "./state.js";
+import { computeScores, axisLabels } from "./scoring.js";
+import { submit as submitStats, clearCache } from "./stats.js";
 import { initQuiz, render as renderQuestion, go, refreshProgress } from "./quiz.js";
 import { renderResults } from "./results.js";
 import { renderMilestone } from "./milestone.js";
@@ -35,9 +37,21 @@ function buildAxisPreview() {
     </div>`).join("");
 }
 
+let submitted = false;
+
+function recordSubmission() {
+  if (submitted || !state.shareStats) return;
+  submitted = true;
+  const { scores } = computeScores(state.answers);
+  submitStats(state.answers, axisLabels(scores), state.mode).then(ok => {
+    if (ok) clearCache();
+  });
+}
+
 function showResults() {
   renderResults(screens.results, {
     onRetake: () => {
+      submitted = false;
       clearSaved();
       history.replaceState(null, "", window.location.pathname);
       refreshProgress();
@@ -56,6 +70,10 @@ function boot() {
   applyTheme(loadTheme());
   buildAxisPreview();
 
+  const shareToggle = document.getElementById("share-toggle-input");
+  shareToggle.checked = loadShareStats();
+  shareToggle.addEventListener("change", () => setShareStats(shareToggle.checked));
+
   const liveToggle = document.getElementById("live-toggle-input");
   liveToggle.checked = loadLivePreview();
   liveToggle.addEventListener("change", () => {
@@ -64,7 +82,10 @@ function boot() {
   });
 
   initQuiz({
-    onFinish: () => showResults(),
+    onFinish: () => {
+      recordSubmission();
+      showResults();
+    },
     onMilestone: () => {
       renderMilestone(screens.milestone, () => show("quiz"));
       show("milestone");
