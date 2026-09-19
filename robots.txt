@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://fardasticmanguy-rgb.github.io/The-Nuance-Compass/sitemap.xml
