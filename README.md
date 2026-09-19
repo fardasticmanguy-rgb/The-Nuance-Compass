@@ -74,6 +74,16 @@ clauses.
 They're deliberately written broad rather than technical. The aim is to catch your instinct about
 a principle, not to quiz you on policy detail.
 
+They are written by section but never asked that way. Sixteen questions in a row about tax invites
+you to answer the sixteenth so it matches the fifteenth, which measures your appetite for
+consistency rather than your view. So each section is dealt out evenly across the whole run: no two
+consecutive questions come from the same one, in either the full test or the short one. The order
+is fixed rather than shuffled, because a saved position has to mean the same thing tomorrow.
+
+Reordering the questions would have broken every share link already in circulation, since those
+encode answers by position. Encoding stays pinned to the original section order in
+`CANONICAL_QUESTIONS`, and only the running order changed.
+
 The short test draws 32 of them, chosen by a balancing pass rather than by hand: it maximises axis
 coverage while driving the signed weight sum on every axis to zero.
 
@@ -156,7 +166,7 @@ js/share.js             result encoding for shareable links
 js/stats.js             pooled answer submission and the comparison figures
 js/data/axes.js         the six axes and their position labels
 js/data/questions.js    question index
-js/data/sections/       the 100 questions, by section
+js/data/sections/       the 113 questions, written by section
 js/data/ideologies.js   31 traditions positioned on all six axes
 js/data/countries.js    48 countries positioned on all six axes
 ```
