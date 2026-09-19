@@ -2,12 +2,14 @@ import { QUESTIONS, QUICK_QUESTIONS } from "./data/questions.js";
 
 const STORAGE_KEY = "nuance-compass-v1";
 const THEME_KEY = "nuance-compass-theme";
+const LIVE_KEY = "nuance-compass-live";
 
 export const state = {
   answers: {},
   position: 0,
   mode: "full",
-  questions: QUESTIONS
+  questions: QUESTIONS,
+  livePreview: false
 };
 
 export function setMode(mode) {
@@ -98,6 +100,26 @@ export function loadTheme() {
     void err;
   }
   return window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+}
+
+export function loadLivePreview() {
+  try {
+    state.livePreview = localStorage.getItem(LIVE_KEY) === "on";
+  } catch (err) {
+    void err;
+    state.livePreview = false;
+  }
+  return state.livePreview;
+}
+
+export function setLivePreview(on) {
+  state.livePreview = Boolean(on);
+  try {
+    localStorage.setItem(LIVE_KEY, state.livePreview ? "on" : "off");
+  } catch (err) {
+    void err;
+  }
+  return state.livePreview;
 }
 
 export function saveTheme(theme) {

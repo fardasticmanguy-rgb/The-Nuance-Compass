@@ -168,6 +168,36 @@ button { font-family: inherit; }
 
 .intro-meta { font-size: 13px; color: var(--text-faint); margin-top: 14px; }
 
+.live-toggle { margin-top: 18px; }
+
+.live-toggle label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  max-width: 58ch;
+}
+
+.live-toggle input {
+  margin: 3px 0 0;
+  accent-color: var(--accent);
+  flex: none;
+  width: 15px;
+  height: 15px;
+}
+
+.live-toggle span { font-size: 13px; color: var(--text-faint); line-height: 1.5; }
+
+.live-toggle b {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--text-dim);
+}
+
+.milestone-note { font-size: 13px; color: var(--text-faint); margin: 0 0 22px; }
+
+
 .intro-cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

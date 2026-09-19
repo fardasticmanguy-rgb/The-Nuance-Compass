@@ -1,5 +1,6 @@
 import { AXES } from "./data/axes.js";
-import { state, load, clearSaved, answeredCount, firstUnanswered, loadTheme, saveTheme, setMode } from "./state.js";
+import { state, load, clearSaved, answeredCount, firstUnanswered, loadTheme, saveTheme, setMode,
+  loadLivePreview, setLivePreview } from "./state.js";
 import { initQuiz, render as renderQuestion, go, refreshProgress } from "./quiz.js";
 import { renderResults } from "./results.js";
 import { renderMilestone } from "./milestone.js";
@@ -54,6 +55,13 @@ function showResults() {
 function boot() {
   applyTheme(loadTheme());
   buildAxisPreview();
+
+  const liveToggle = document.getElementById("live-toggle-input");
+  liveToggle.checked = loadLivePreview();
+  liveToggle.addEventListener("change", () => {
+    setLivePreview(liveToggle.checked);
+    refreshProgress();
+  });
 
   initQuiz({
     onFinish: () => showResults(),

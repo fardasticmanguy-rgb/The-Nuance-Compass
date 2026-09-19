@@ -31,9 +31,14 @@ what "Georgism" means to answer honestly.
 **Six axes.** Two axes cannot hold a person, so the classic economic and authority axes are joined
 by culture, borders, ecology, and who you trust to make decisions.
 
-**You can see it working.** A live compass in the corner moves with every answer, including when
-you tick a condition, so the scoring is never a black box you wait fifteen minutes to see the
-output of. Every twenty questions it stops and shows where you have landed so far.
+**No score until the end.** A result you can watch is a result you start aiming at. Once a test
+tells you part-way through that you are drifting towards a particular corner, you answer the rest
+against that label instead of against the statement, either leaning into it or flinching away, and
+usually without noticing. So the compass stays hidden while you answer. The checkpoint every twenty
+questions counts what is left and nothing else.
+
+If you would rather watch it move, the front page has a switch for it. It is off by default, and
+the reason it is off is written next to it.
 
 **Two lengths.** The full test is 113 questions. The short one is 32, picked to cover all six
 sections and balanced to within about a percent on every axis, so a five-minute run is not a worse
@@ -129,7 +134,7 @@ css/style.css           styling, light and dark themes
 js/main.js              screen routing and boot
 js/quiz.js              question rendering, answer control, conditions, keyboard control
 js/results.js           results screen
-js/milestone.js         the every-twenty-questions checkpoint
+js/milestone.js         the every-twenty-questions checkpoint, blind unless asked
 js/compass.js           the compass plot, drawn as SVG
 js/scoring.js           scoring, normalisation, matching
 js/state.js             localStorage persistence and which question set is active

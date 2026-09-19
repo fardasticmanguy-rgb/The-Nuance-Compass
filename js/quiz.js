@@ -252,6 +252,14 @@ function paintProgress() {
   el.progressFill.style.width = (done / total) * 100 + "%";
   el.topProgress.hidden = false;
   el.topProgress.textContent = `${done} of ${total}`;
+
+  if (!state.livePreview) {
+    el.miniCompass.hidden = true;
+    el.miniCompass.innerHTML = "";
+    return;
+  }
+
+  el.miniCompass.hidden = false;
   const { scores } = computeScores(state.answers);
   el.miniCompass.innerHTML = miniCompassSvg(scores, done);
 }
