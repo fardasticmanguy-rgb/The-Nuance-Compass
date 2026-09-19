@@ -209,6 +209,26 @@ button { font-family: inherit; }
 
 .method-body { font-size: 14px; color: var(--text-dim); max-width: 68ch; }
 
+.faq {
+  margin-top: 40px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.faq h2 {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-dim);
+  margin: 0;
+}
+
+.faq .method { margin-top: 6px; }
+
+.faq .method + .method { border-top: 1px solid var(--line-soft); }
+
+.faq .method-body { padding-bottom: 8px; }
+
 .quiz-head {
   display: flex;
   align-items: flex-end;
