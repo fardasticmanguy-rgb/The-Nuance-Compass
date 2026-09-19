@@ -197,6 +197,34 @@ button { font-family: inherit; }
 
 .milestone-note { font-size: 13px; color: var(--text-faint); margin: 0 0 22px; }
 
+.live-toggle label + label { margin-top: 12px; }
+
+.crowd-list { list-style: none; margin: 0; padding: 0; }
+
+.crowd-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 14px;
+}
+
+.crowd-list li:last-child { border-bottom: none; }
+.crowd-list span { color: var(--text-faint); flex: none; }
+.crowd-list strong { font-weight: 500; text-align: right; }
+
+.crowd-note {
+  display: block;
+  font-size: 12.5px;
+  color: var(--text-faint);
+  margin-top: 3px;
+  line-height: 1.45;
+}
+
+.crowd-note[data-tone="against"] { color: var(--accent); }
+
 
 .intro-cards {
   display: grid;
