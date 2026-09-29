@@ -4,16 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="google-site-verification" content="ke3HJyfVdn9UhqFef1MR4q6tfNen8oP3ZvOsPLhnRo4">
-<title>The Nuance Compass: a political compass test built on conditions, not absolutes</title>
-<meta name="description" content="The Nuance Compass is a free 113-question political compass test scored across six axes. Answer on a scale instead of yes or no, attach the conditions you actually mean, and see how your answers compare with everyone else who has taken it.">
+<title>The Nuance Compass | Political Compass Test With Six Axes</title>
+<meta name="description" content="A free political compass test with 113 statements and six axes. Answer on a sliding scale, tick the conditions you would actually add, like “only if” or “unless”, and see how your answers compare with everyone else who has taken it.">
 <link rel="canonical" href="https://fardasticmanguy-rgb.github.io/The-Nuance-Compass/">
 <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
 <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
 <meta name="theme-color" content="#f6f7f8" media="(prefers-color-scheme: light)">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Nuance Compass">
-<meta property="og:title" content="The Nuance Compass: a political test that admits people don't answer in yes or no">
-<meta property="og:description" content="A free 113-question political compass test across six axes. Answer on a scale, attach conditions like “only if” and “unless”, and get a map instead of a label.">
+<meta property="og:title" content="The Nuance Compass">
+<meta property="og:description" content="113 statements, six axes, and room to say “only if”. Free, no sign-up, about 15 minutes.">
 <meta property="og:url" content="https://fardasticmanguy-rgb.github.io/The-Nuance-Compass/">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://fardasticmanguy-rgb.github.io/The-Nuance-Compass/assets/og.png">
@@ -22,10 +22,11 @@
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="The Nuance Compass, 113 questions, six axes">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="The Nuance Compass: a political test that admits people don't answer in yes or no">
-<meta name="twitter:description" content="A free 113-question political compass test across six axes. Answer on a scale, attach conditions like “only if” and “unless”, and get a map instead of a label.">
+<meta name="twitter:title" content="The Nuance Compass">
+<meta name="twitter:description" content="113 statements, six axes, and room to say “only if”. Free, no sign-up, about 15 minutes.">
 <meta name="twitter:image" content="https://fardasticmanguy-rgb.github.io/The-Nuance-Compass/assets/og.png">
 <meta name="twitter:image:alt" content="The Nuance Compass, 113 questions, six axes">
+<link rel="icon" href="assets/favicon-48.png" sizes="48x48" type="image/png">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="stylesheet" href="css/style.css">
@@ -39,7 +40,7 @@
       "url": "https://fardasticmanguy-rgb.github.io/The-Nuance-Compass/",
       "name": "The Nuance Compass",
       "alternateName": ["Nuance Compass", "The Nuance Compass test"],
-      "description": "The Nuance Compass is a free 113-question political compass test scored across six axes. Answer on a scale instead of yes or no, attach the conditions you actually mean, and see how your answers compare with everyone else who has taken it.",
+      "description": "A free political compass test with 113 statements and six axes. Answer on a sliding scale, tick the conditions you would actually add, like “only if” or “unless”, and see how your answers compare with everyone else who has taken it.",
       "inLanguage": "en"
     },
     {
@@ -51,7 +52,7 @@
       "applicationSubCategory": "Political compass test",
       "operatingSystem": "Any modern web browser",
       "browserRequirements": "Requires JavaScript",
-      "description": "The Nuance Compass is a free 113-question political compass test scored across six axes. Answer on a scale instead of yes or no, attach the conditions you actually mean, and see how your answers compare with everyone else who has taken it.",
+      "description": "A free political compass test with 113 statements and six axes. Answer on a sliding scale, tick the conditions you would actually add, like “only if” or “unless”, and see how your answers compare with everyone else who has taken it.",
       "image": "https://fardasticmanguy-rgb.github.io/The-Nuance-Compass/assets/og.png",
       "isAccessibleForFree": true,
       "isPartOf": { "@id": "https://fardasticmanguy-rgb.github.io/The-Nuance-Compass/#website" },
@@ -75,7 +76,7 @@
           "name": "What is The Nuance Compass?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The Nuance Compass is a free political compass test of 113 statements scored across six axes. Instead of agree or disagree, you answer on a scale and attach the conditions you actually mean, so a qualified agreement scores differently from a flat one."
+            "text": "A free political compass test of 113 statements scored across six axes. You answer on a scale and attach the conditions you actually mean, so a qualified agreement scores differently from a flat one."
           }
         },
         {
@@ -165,12 +166,14 @@
       </label>
     </div>
 
-    <p class="intro-meta" id="intro-meta">Takes about 15 minutes. Your progress is saved on this device only.</p>
+    <p class="intro-meta" id="intro-meta">Takes about 15 minutes. Your progress is saved on this device.</p>
   </div>
+
+  <div class="demo" id="demo" aria-label="Try a question before you start"></div>
 
   <div class="intro-cards">
     <article class="feature">
-      <h3>Conditions, not absolutes</h3>
+      <h3>Conditions you actually mean</h3>
       <p>Every statement carries the clauses people actually add: only if, unless, but not when. Pick the ones you mean and they change your score.</p>
     </article>
     <article class="feature">
@@ -211,7 +214,7 @@
       <p>
         Each axis is scored against the strongest possible answer to the questions you actually
         answered, so skipping questions does not distort the rest. The statements are polarity
-        balanced: agreeing with all one hundred puts you within a point or two of dead centre, so
+        balanced: agreeing with every one of them puts you within a point or two of dead centre, so
         the test cannot be passed by nodding along.
       </p>
     </div>
@@ -224,9 +227,9 @@
       <summary>What is The Nuance Compass?</summary>
       <div class="method-body">
         <p>
-          The Nuance Compass is a free political compass test of 113 statements scored across six
-          axes. Instead of agree or disagree, you answer on a scale and attach the conditions you
-          actually mean, so a qualified agreement scores differently from a flat one.
+          A free political compass test of 113 statements scored across six axes. You answer on a
+          scale and attach the conditions you actually mean, so a qualified agreement scores
+          differently from a flat one.
         </p>
       </div>
     </details>

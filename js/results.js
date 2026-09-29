@@ -291,7 +291,7 @@ function cardSvg() {
     <svg x="0" y="96" width="640" height="640" viewBox="0 0 640 640">${compassSvg(scores, "none").replace(/^<svg[^>]*>/, "").replace(/<\/svg>$/, "")}</svg>
     <text x="40" y="780" font-size="13" fill="#ffffff" font-family="Helvetica, Arial, sans-serif" font-weight="600">Six axes</text>
     ${bars}
-    <text x="40" y="992" font-size="11" fill="#5b6478" font-family="Helvetica, Arial, sans-serif">100 questions, 220 conditions, six axes.</text>
+    <text x="40" y="992" font-size="11" fill="#5b6478" font-family="Helvetica, Arial, sans-serif">113 questions, 248 conditions, six axes.</text>
   </svg>`;
 }
 

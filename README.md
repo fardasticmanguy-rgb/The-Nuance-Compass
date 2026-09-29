@@ -14,7 +14,7 @@ agree if the statement meant the thing they think it means. This test is built a
 between two of them, open the fine-tune scale and place yourself anywhere from −100 to +100. It
 snaps to the five choices and to steps of 5 in between, so it never fights you.
 
-**Conditions, not absolutes.** Every statement carries the clauses people actually attach to their
+**Room for "only if".** Every statement carries the clauses people actually attach to their
 opinions. Answer on the agree side and you're offered the qualifiers of agreement (*only with a
 warrant*, *but not when it's inherited*, *as long as nobody is hurt*). Answer on the disagree side
 and you're offered the reservations instead (*unless they genuinely cannot work*, *though peaceful
