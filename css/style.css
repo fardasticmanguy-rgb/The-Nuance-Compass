@@ -840,3 +840,94 @@ kbd {
 .review-row .n { color: var(--text-faint); font-size: 12px; font-variant-numeric: tabular-nums; }
 .review-row .v { font-size: 12px; color: var(--text-faint); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .review-row .t { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text-dim); }
+
+.demo {
+  margin-top: 36px;
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(18px, 3.5vw, 26px);
+}
+
+.demo-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 10px; }
+.demo-title { font-size: 13px; font-weight: 500; color: var(--text-dim); }
+.demo-nav { display: flex; align-items: baseline; gap: 12px; }
+.demo-count { font-size: 12px; color: var(--text-faint); font-variant-numeric: tabular-nums; }
+
+.demo-statement { font-size: clamp(18px, 2.4vw, 21px); font-weight: 500; line-height: 1.4; margin: 0 0 16px; }
+
+.demo-choices { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+.demo-choice { padding: 11px 6px; }
+.demo-choice .short { display: none; }
+
+.demo-cond-head { font-size: 13px; color: var(--text-faint); margin: 18px 0 10px; }
+.demo-conds { display: flex; flex-direction: column; gap: 6px; }
+
+.demo-out {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: center;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.demo-plot svg { display: block; width: 100%; max-width: 320px; height: auto; margin: 0 auto; overflow: visible; }
+.demo-plot .grid line { stroke: #ffffff; stroke-width: 0.5; opacity: 0.18; }
+.demo-plot .cross { stroke: var(--bg-card); stroke-width: 2; }
+.demo-plot .pole { font-size: 9px; letter-spacing: 0.1em; font-weight: 600; fill: var(--text-faint); }
+
+.demo-plot #demo-dot,
+.demo-plot #demo-ghost { transition: transform 0.5s cubic-bezier(0.3, 1.3, 0.5, 1); }
+
+.demo-plot .you .core { fill: #111318; stroke: #ffffff; stroke-width: 2.6; }
+.demo-plot .you .halo { fill: #ffffff; opacity: 0.3; }
+.demo-plot .ghost circle { fill: none; stroke: #ffffff; stroke-width: 2; stroke-dasharray: 2.5 2; }
+.demo-plot .ghost { opacity: 0; }
+.demo-plot .ghost.on { opacity: 0.9; }
+.demo-plot .trail { stroke: #ffffff; stroke-width: 1.4; stroke-dasharray: 3 3; opacity: 0; transition: opacity 0.3s ease; }
+.demo-plot .trail.on { opacity: 0.85; }
+
+.demo-meters { display: flex; flex-direction: column; gap: 10px; }
+
+.meter-top { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-faint); margin-bottom: 4px; }
+.meter-top b { font-weight: 500; font-variant-numeric: tabular-nums; }
+.meter.moved .meter-top b { color: var(--text); }
+
+.meter-track {
+  position: relative;
+  height: 6px;
+  border-radius: 3px;
+  display: flex;
+  overflow: visible;
+  background: linear-gradient(90deg, var(--l) 0 50%, var(--r) 50% 100%);
+  opacity: 0.35;
+  transition: opacity 0.3s ease;
+}
+
+.meter.moved .meter-track { opacity: 1; }
+
+.meter-track i {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border-radius: 50%;
+  background: var(--text);
+  border: 2px solid var(--bg-card);
+  transition: left 0.5s cubic-bezier(0.3, 1.3, 0.5, 1);
+}
+
+.demo-caption { margin: 16px 0 0; font-size: 14px; color: var(--text-dim); min-height: 1.6em; }
+
+@media (max-width: 620px) {
+  .demo-choices { gap: 4px; }
+  .demo-choice { padding: 10px 2px; min-height: 48px; justify-content: center; flex-direction: column; font-size: 12.5px; text-align: center; }
+  .demo-choice .full { display: none; }
+  .demo-choice .short { display: inline; }
+  .demo-out { grid-template-columns: minmax(0, 1fr); }
+  .demo-meters { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 16px; }
+}

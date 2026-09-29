@@ -7,6 +7,7 @@ import { initQuiz, render as renderQuestion, go, refreshProgress } from "./quiz.
 import { renderResults } from "./results.js";
 import { renderMilestone } from "./milestone.js";
 import { readShared, readResume } from "./share.js";
+import { initDemo } from "./demo.js";
 
 const screens = {
   intro: document.getElementById("screen-intro"),
@@ -69,6 +70,7 @@ function showResults() {
 function boot() {
   applyTheme(loadTheme());
   buildAxisPreview();
+  initDemo(document.getElementById("demo"));
 
   const shareToggle = document.getElementById("share-toggle-input");
   shareToggle.checked = loadShareStats();
@@ -172,7 +174,7 @@ function updateIntro() {
     meta.textContent = "You have answered everything.";
   } else {
     resume.hidden = true;
-    meta.textContent = "Nothing leaves your browser.";
+    meta.textContent = "Takes about 15 minutes. Your progress is saved on this device.";
   }
 }
 
